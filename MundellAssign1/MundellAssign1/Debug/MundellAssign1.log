@@ -1,0 +1,5 @@
+﻿  main.cpp
+j:\spring2018\algorithms\mundellassign1\mundellassign1\main.cpp(20): warning C4018: '<': signed/unsigned mismatch
+j:\spring2018\algorithms\mundellassign1\mundellassign1\main.cpp(29): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+j:\spring2018\algorithms\mundellassign1\mundellassign1\main.cpp(33): warning C4018: '<': signed/unsigned mismatch
+  MundellAssign1.vcxproj -> J:\Spring2018\Algorithms\MundellAssign1\Debug\MundellAssign1.exe

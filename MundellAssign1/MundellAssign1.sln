@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MundellAssign1", "MundellAssign1\MundellAssign1.vcxproj", "{9E50D3B4-25D3-480E-A203-ABA5B5FB41A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E50D3B4-25D3-480E-A203-ABA5B5FB41A2}.Debug|x64.ActiveCfg = Debug|x64
+		{9E50D3B4-25D3-480E-A203-ABA5B5FB41A2}.Debug|x64.Build.0 = Debug|x64
+		{9E50D3B4-25D3-480E-A203-ABA5B5FB41A2}.Debug|x86.ActiveCfg = Debug|Win32
+		{9E50D3B4-25D3-480E-A203-ABA5B5FB41A2}.Debug|x86.Build.0 = Debug|Win32
+		{9E50D3B4-25D3-480E-A203-ABA5B5FB41A2}.Release|x64.ActiveCfg = Release|x64
+		{9E50D3B4-25D3-480E-A203-ABA5B5FB41A2}.Release|x64.Build.0 = Release|x64
+		{9E50D3B4-25D3-480E-A203-ABA5B5FB41A2}.Release|x86.ActiveCfg = Release|Win32
+		{9E50D3B4-25D3-480E-A203-ABA5B5FB41A2}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A7B2CD78-D87E-45CC-B02C-21E075E0A52A}
+	EndGlobalSection
+EndGlobal
