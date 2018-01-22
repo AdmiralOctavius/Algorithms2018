@@ -1,12 +1,15 @@
 /***
-
-
-
-
+Student: Isaac Bennett
+Class: CIT263 Alg
+Prof: Matt Mundell
+-----
+Assignment 1: Vector search and sort
+Notes: Was a fairly fun review project, good start.
+Will work more on pure efficiency next time.
 ***/
 
 
-
+//Includes
 #include <iostream>
 #include <string>
 #include <vector>
@@ -17,19 +20,24 @@
 #include "Timer.h"
 using namespace std;
 
-//Temp display
+//Temp display function
+//Complexity: O(N)
 void DisplayArray(int arr[], int size) {
 	for (int i = 0; i < size; i++) {
 		cout << arr[i] << ',';
 	}
 }
 
+//Disply top ten function, good for debugging
+//Complexity: O(10)
 void DisplayTopTen(vector<int> input) {
 	for (int i = input.size() - 10; i < input.size(); i++) {
 		cout << input.at(i) << ',' ;
 	}
 }
 
+//Gets the highest number in an unsorted array, starting at the bottom
+//O(N)
 int HighestNumber(vector<int> input) {
 	int highestNumber = 0;
 	for (int i = 0; i < input.size(); i++) {
@@ -40,6 +48,8 @@ int HighestNumber(vector<int> input) {
 	return highestNumber;
 }
 
+//Simple function that gets the highest number at the end of a sorted vector
+//Complexity: O(4)
 int HighestVectorNumber(vector<int> input) {
 
 	int highestNum = 0;
@@ -49,22 +59,30 @@ int HighestVectorNumber(vector<int> input) {
 	return highestNum;
 }
 
+//Gets the third highest in an unsorted array/vector
+//Complexity:O(N)
 int ThirdHighestNumber(vector<int> input) {
+	//Establish vector for the highest three numbers
 	vector<int> HighestThree(3);	
 	HighestThree.at(0) = 0;
 	HighestThree.at(1) = 0;
 	HighestThree.at(2) = 0;
+
+	//Main for loop over all the numbers in vector
 	for (int i = 0; i < input.size(); i++) {
+		//If the new number is greater than all the other numbers we shift all the numbers down by 1 in the vector, dumping the lowest value
 		if (input.at(i) > HighestThree.at(0)) {
 			HighestThree.at(2) = HighestThree.at(1);
 			HighestThree.at(1) = HighestThree.at(0);
 			HighestThree.at(0) = input.at(i);
 		
 		}
+		//We do the same here, but we also check to ensure that it is not the same number as the highest number, we want to ignore similar highest numbers
 		else if (input.at(i) > HighestThree.at(1) && input.at(i) != HighestThree.at(0)) {
 			HighestThree.at(2) = HighestThree.at(1);
 			HighestThree.at(1) = input.at(i);
 		}
+		//Same here, but we also ignore the second highest number as well
 		else if (input.at(i) > HighestThree.at(2) && input.at(i) != HighestThree.at(0) && input.at(i) != HighestThree.at(1)) {
 			HighestThree.at(2) = input.at(i);
 		}
@@ -74,17 +92,23 @@ int ThirdHighestNumber(vector<int> input) {
 		}
 	}
 
+	//Return the third highest number in our smaller vector
 	return HighestThree.at(2);
 }
 
+//Much simpler function for finding our number in a sorted vector
+//Complexity: O(N)
 int SortedThirdHighestNumber(vector<int> input) {
+	//Again small vector of three elements
 	vector<int> HighestThree(3);
 	HighestThree.at(0) = 0;
 	HighestThree.at(1) = 0;
 	HighestThree.at(2) = 0;
 
 	//Ask about >=0 or >= -1
+	//Simple for loop counting down from the top of the array, allowing for optimization
 	for (int i = input.size() - 1; i >= 0; i--) {
+		//If we find a number similar to the highest number, or if it is higher, simply store it
 		if (input.at(i) >= HighestThree.at(0)) {
 			HighestThree.at(0) = input.at(i);
 		}
@@ -100,9 +124,12 @@ int SortedThirdHighestNumber(vector<int> input) {
 			//cout << "Was most likely equal." << endl;
 		}
 	}
-
+	//Simply return the third highest
 	return HighestThree.at(2);
 }
+
+
+
 int main() {
 
 	//-----Establishing the array-----//
@@ -116,27 +143,6 @@ int main() {
 
 	//-------Finished the array------//
 
-	vector<int> RandomTest(10);
-	
-	RandomTest[0] = 996;
-	RandomTest[1] = 995;
-	RandomTest[2] = 998;
-	RandomTest[3] = 996;
-	RandomTest[4] = 997;
-	RandomTest[5] = 999;
-	RandomTest[6] = 998;
-	RandomTest[7] = 997;
-	RandomTest[8] = 996;
-	RandomTest[9] = 999;
-
-	cout << ThirdHighestNumber(RandomTest);
-	sort(RandomTest.begin(), RandomTest.end());
-
-	//Function that displays the top ten results in the sorted Array, helps debug the Third Highests function
-	DisplayTopTen(RandomTest);
-
-
-
 
 	//Finds the highest number in the unsorted array
 	cout << endl << HighestNumber(RandomNumbers) << endl;
@@ -147,7 +153,7 @@ int main() {
 	//Default Sort function
 	//Sorting//
 	sort(RandomNumbers.begin(), RandomNumbers.end());
-	
+	//Sorting//	
 
 	//Function that displays the top ten results in the sorted Array, helps debug the Third Highests function
 	DisplayTopTen(RandomNumbers);

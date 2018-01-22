@@ -1,0 +1,4 @@
+﻿  main.cpp
+c:\users\bennett253\documents\github\algorithms2018\sortingalgorithms\sortingalgorithms\main.cpp(9): warning C4018: '<': signed/unsigned mismatch
+c:\users\bennett253\documents\github\algorithms2018\sortingalgorithms\sortingalgorithms\main.cpp(16): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  SortingAlgorithms.vcxproj -> C:\Users\bennett253\Documents\GitHub\Algorithms2018\SortingAlgorithms\Debug\SortingAlgorithms.exe
