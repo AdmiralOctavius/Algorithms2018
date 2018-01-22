@@ -1,7 +1,7 @@
 ﻿  main.cpp
-c:\users\isaac\documents\github\algorithms2018\mundellassign1\mundellassign1\main.cpp(19): warning C4018: '<': signed/unsigned mismatch
-c:\users\isaac\documents\github\algorithms2018\mundellassign1\mundellassign1\main.cpp(26): warning C4018: '<': signed/unsigned mismatch
-c:\users\isaac\documents\github\algorithms2018\mundellassign1\mundellassign1\main.cpp(48): warning C4018: '<': signed/unsigned mismatch
-c:\users\isaac\documents\github\algorithms2018\mundellassign1\mundellassign1\main.cpp(97): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\isaac\documents\github\algorithms2018\mundellassign1\mundellassign1\main.cpp(101): warning C4018: '<': signed/unsigned mismatch
+c:\users\isaac\documents\github\algorithms2018\mundellassign1\mundellassign1\main.cpp(28): warning C4018: '<': signed/unsigned mismatch
+c:\users\isaac\documents\github\algorithms2018\mundellassign1\mundellassign1\main.cpp(35): warning C4018: '<': signed/unsigned mismatch
+c:\users\isaac\documents\github\algorithms2018\mundellassign1\mundellassign1\main.cpp(57): warning C4018: '<': signed/unsigned mismatch
+c:\users\isaac\documents\github\algorithms2018\mundellassign1\mundellassign1\main.cpp(109): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\isaac\documents\github\algorithms2018\mundellassign1\mundellassign1\main.cpp(113): warning C4018: '<': signed/unsigned mismatch
   MundellAssign1.vcxproj -> C:\Users\Isaac\Documents\GitHub\Algorithms2018\MundellAssign1\Debug\MundellAssign1.exe
