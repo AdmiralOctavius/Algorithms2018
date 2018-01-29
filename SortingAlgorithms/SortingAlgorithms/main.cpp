@@ -59,8 +59,45 @@ void SelectionSort(vector<int> &vec) {
 }
 
 
+int Partition(vector<int> &vec, int leftIndex, int rightIndex) {//O(n)
+	int middle = leftIndex + (rightIndex - leftIndex) / 2;
+	int pivot = vec[rightIndex];
+	//int temp;
+	if ((rightIndex - leftIndex) < 2) {
+		return -1;
+	}
+	
+		
+	int j = leftIndex;
+	for (int i = 0; i < rightIndex; i++) {
+		if (vec.at(i) < pivot) {
+			Swap(vec.at(i), vec.at(j++));
+		}
+	}
+	Swap(vec[rightIndex], vec[j]);
+	pivot = vec[middle];
+	return pivot;
+}
+
+
+
+
+void Quicksort(vector<int> &vec, int leftIndex, int rightIndex) { //O(n^2), Average(O(nlog(n))
+
+
+	if (leftIndex >= rightIndex) {
+		return;
+	}
+
+	int pivotIndex = Partition(vec, leftIndex, rightIndex);
+
+	Quicksort(vec, leftIndex, pivotIndex - 1);
+	Quicksort(vec, pivotIndex + 1, rightIndex);
+
+}
+
 int main() {
-	srand(time(0));
+	/**srand(time(0));
 	Timer timer;
 	vector<int> numbers;
 	int n = 1000;
@@ -92,5 +129,19 @@ int main() {
 
 	DisplayVector(vecToSort);
 	VerifySort(vecToSort);
+	**/
+
+	vector<int> partitioning;
+	partitioning.push_back(1);
+	partitioning.push_back(5);
+	partitioning.push_back(2);
+	partitioning.push_back(7);
+	partitioning.push_back(2);
+	partitioning.push_back(8);
+	cout << Partition(partitioning, 0, 5) << endl;
+	cout << Partition(partitioning, 0, 1) << endl;
+	cout << Partition(partitioning, 0, 0) << endl;
+	cout << Partition(partitioning, 3, 5) << endl;
+
 	return 0;
 }
