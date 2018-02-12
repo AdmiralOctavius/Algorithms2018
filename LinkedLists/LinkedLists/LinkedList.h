@@ -51,10 +51,30 @@ public:
 		size++;
 	}
 	void PopBack() {
+		if (tail == nullptr) {//Empty
+			return;
+		}
+		
+		if (head == tail) {//1 element
+			delete head;
+			head = tail = nullptr;
+		}
 
+		Node* temp = head;
+		while (temp->next != tail) {
+			temp = temp->next;
+		}
+		temp->next = nullptr;
+		delete tail;
+		tail = temp;
 	}
 	void PopFront() {
-
+		if (head == nullptr) {
+			return;
+		}
+		Node* temp = head;
+		head = head->next;
+		delete temp;
 	}
 
 private:
