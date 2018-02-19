@@ -1,0 +1,4 @@
+﻿  main.cpp
+c:\users\bennett253\documents\sourcetreealg\mundellassign3\mundellassign3\main.cpp(138): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\bennett253\documents\sourcetreealg\mundellassign3\mundellassign3\main.cpp(151): warning C4715: 'QuickSelect': not all control paths return a value
+  MundellAssign3.vcxproj -> C:\Users\bennett253\Documents\SourceTreeAlg\MundellAssign3\x64\Debug\MundellAssign3.exe

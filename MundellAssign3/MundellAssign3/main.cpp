@@ -32,6 +32,7 @@ void ImpMergeSort(vector<int> &vec, int leftIndex, int rightIndex) {//O(nlogn)
 
 
 
+/*
 int Partition(vector<int> &vec, int leftIndex, int rightIndex) {//O(n)
 															//Pick a pivot value, such as the last value
 	//Not sure why we get a random index
@@ -66,10 +67,38 @@ int Partition(vector<int> &vec, int leftIndex, int rightIndex) {//O(n)
 	}
 	//Swap the end result of j with right index? This should give us
 	Swap(vec[rightIndex], vec[j]);
+<<<<<<< HEAD
 	//No need for this
 	//change pivot to the middle position
 	//pivot = vec[middle];
 	//Give the new middle / pivot value
+=======
+	pivot = vec[middle];
+	return pivot;
+}*/
+
+
+
+int Partition(vector<int> &vec, int leftIndex, int rightIndex)//O(n)
+{
+	//Pick a pivot value, such as the last value in the section
+	int randIndex = rand() % (rightIndex - leftIndex) + leftIndex;
+	swap(vec[randIndex], vec[rightIndex]);
+	int pivot = vec[rightIndex];
+
+	//Then for every value smaller than the pivot, swap it into the left half of the section
+	int j = leftIndex;
+	for (int i = leftIndex; i < rightIndex; ++i)
+	{
+		if (vec[i] < pivot)
+			Swap(vec[i], vec[j++]);
+	}
+
+	//Then swap the pivot value into the middle of the section
+	Swap(vec[rightIndex], vec[j]);
+
+	//Finally, return the index of the pivot value
+>>>>>>> origin/master
 	return j;
 }
 
@@ -140,6 +169,7 @@ int QuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
 		return pivot;
 	}
 
+<<<<<<< HEAD
 	//While loop of calculations
 	while(pivot != target){
 		if (( rightIndex - leftIndex) <= 0) {
@@ -160,6 +190,21 @@ int QuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
 	//Return the position of that element
 	return pivot;
 }
+=======
+//In place sort - only moves numbers in the original array
+//O(1) memory usage
+//Merge sort is not an in place sort, we make extra vectors to use it
+//O(N) memory usage
+/*void MergeSort(vector<int> &vec, int leftIndex, int rightIndex) {//O(nlogn)
+	if (leftIndex < rightIndex) {
+		int midpoint = (rightIndex - leftIndex) / 2;
+
+		MergeSort(vec, leftIndex, midpoint);
+		MergeSort(vec, midpoint + 1), rightIndex;
+		Merge(vec, leftIndex, midpoint);
+	}
+}*/
+>>>>>>> origin/master
 
 
 void Quicksort(vector<int> &vec, int leftIndex, int rightIndex) { //O(n^2), Average(O(nlog(n))
@@ -177,6 +222,7 @@ void Quicksort(vector<int> &vec, int leftIndex, int rightIndex) { //O(n^2), Aver
 	string name;
 }
 
+<<<<<<< HEAD
 int main() {
 
 	Student Ben(111, "Ben", 3.0);
@@ -207,5 +253,51 @@ int main() {
 
 	ImpMergeSort(inputMerge, 0, 99);
 	DisplayVector(inputMerge);
+=======
+int QuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
+	int pivot;//= (rightIndex - leftIndex) / 2;
+	bool ban = true;
+	value = vec.size() - value;
+	while (ban) {
+		pivot = Partition(vec, leftIndex, rightIndex);
+		if (pivot == value) {
+			return pivot;
+		}
+		else if (pivot < value) {
+			leftIndex = pivot - 1;
+		}
+		else if (pivot > value) {
+			rightIndex = pivot + 1;
+		}
+	}
+}
+
+int main() {
+
+	vector<int> input(100);
+	for (int i = 0; i < 100; i++) {
+		input.at(i) = rand() % 100;
+	}
+
+	vector<int> TenInput(10);
+	for (int i = 0; i < 10; i++) {
+		TenInput.at(i) = rand() % 100;
+	}
+
+
+	int result;
+	result = QuickSelect(input, 0, 99, 3);
+	cout << "Third Largest Element Position: " << result << " The Element itself: " << input.at(result) << endl;
+	DisplayVector(input);
+
+	result = QuickSelect(input, 0, 99, 15);
+	cout << "15 Largest Element Position: " << result << " The Element itself: " << input.at(result) << endl;
+	DisplayVector(input);
+
+	result = QuickSelect(TenInput, 0, 9, 4);
+	cout << "Median Largest Element Position: " << result << " The Element itself: " << TenInput.at(result) << endl;
+	DisplayVector(TenInput);
+
+>>>>>>> origin/master
 	return 0;
 }
