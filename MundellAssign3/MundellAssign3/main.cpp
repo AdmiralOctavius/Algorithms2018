@@ -11,27 +11,26 @@ using namespace std;
 
 
 void ImpMergeSort(vector<int> &vec, int leftIndex, int rightIndex) {//O(nlogn)
+
 	if (leftIndex < rightIndex) {
 		int midpoint = (rightIndex - leftIndex) / 2;
-		if ((midpoint - leftIndex) > 10) {
-			ImpMergeSort(vec, leftIndex, midpoint);
-		}
-		else {
+		if ((rightIndex - leftIndex) < 10) {
 			InsertionSort(vec, leftIndex, midpoint);
 		}
-		if ((rightIndex - (midpoint + 1)) > 10) {
-			ImpMergeSort(vec, midpoint + 1, rightIndex);
-		}
 		else {
+			ImpMergeSort(vec, leftIndex, midpoint);
+		}
+
+		if ((rightIndex - (midpoint+1)) < 10) {
 			InsertionSort(vec, midpoint + 1, rightIndex);
 		}
-
-		Merge(vec, leftIndex, midpoint, rightIndex);
+		else {
+			ImpMergeSort(vec, midpoint + 1, rightIndex);
+		}
+		static vector<int> tempNumbers(rightIndex - leftIndex + 1);
+		Merge(vec, tempNumbers, leftIndex, midpoint, rightIndex);
 	}
 }
-
-
-
 /*
 int Partition(vector<int> &vec, int leftIndex, int rightIndex) {//O(n)
 															//Pick a pivot value, such as the last value
@@ -76,9 +75,6 @@ int Partition(vector<int> &vec, int leftIndex, int rightIndex) {//O(n)
 	pivot = vec[middle];
 	return pivot;
 }*/
-
-
-
 int Partition(vector<int> &vec, int leftIndex, int rightIndex)//O(n)
 {
 	//Pick a pivot value, such as the last value in the section
@@ -98,10 +94,9 @@ int Partition(vector<int> &vec, int leftIndex, int rightIndex)//O(n)
 	Swap(vec[rightIndex], vec[j]);
 
 	//Finally, return the index of the pivot value
->>>>>>> origin/master
+//>>>>>>> origin/master
 	return j;
 }
-
 int ParPartition(vector<int> &vec, int leftIndex, int rightIndex, int pivot) {//O(n)
 
 	swap(vec[pivot], vec[rightIndex]);
@@ -135,7 +130,6 @@ int ParPartition(vector<int> &vec, int leftIndex, int rightIndex, int pivot) {//
 	//Give the new middle / pivot value
 	return j;
 }
-
 int wikiPartition(vector<int> &vec, int leftIndex, int rightIndex, int pivot) {
 	int pivotVal = vec[pivot];
 	Swap(vec[pivot], vec[rightIndex]);
@@ -149,7 +143,7 @@ int wikiPartition(vector<int> &vec, int leftIndex, int rightIndex, int pivot) {
 	Swap(vec[rightIndex], vec[storedIndex]);
 	return storedIndex;
 }
-int QuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
+int OldQuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
 	//Check if there's only one element
 	if (vec.size() == 1) {
 		return vec[0];
@@ -169,7 +163,7 @@ int QuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
 		return pivot;
 	}
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	//While loop of calculations
 	while(pivot != target){
 		if (( rightIndex - leftIndex) <= 0) {
@@ -190,7 +184,7 @@ int QuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
 	//Return the position of that element
 	return pivot;
 }
-=======
+//=======
 //In place sort - only moves numbers in the original array
 //O(1) memory usage
 //Merge sort is not an in place sort, we make extra vectors to use it
@@ -204,7 +198,7 @@ int QuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
 		Merge(vec, leftIndex, midpoint);
 	}
 }*/
->>>>>>> origin/master
+//>>>>>>> origin/master
 
 
 void Quicksort(vector<int> &vec, int leftIndex, int rightIndex) { //O(n^2), Average(O(nlog(n))
@@ -221,17 +215,11 @@ void Quicksort(vector<int> &vec, int leftIndex, int rightIndex) { //O(n^2), Aver
 
 	string name;
 }
-
-<<<<<<< HEAD
+/*
+//<<<<<<< HEAD
 int main() {
 
-	Student Ben(111, "Ben", 3.0);
-	Student Mark(1340, "Mark", 2.0);
-
-	if (Ben < Mark) {
-		cout << "Ben goes first" << endl;
-	}
-
+	
 	vector<int> input(100);
 	for (int i = 0; i < 100; i++) {
 		input[i] = rand() % 100;
@@ -245,15 +233,8 @@ int main() {
 
 	DisplayVector(input);
 
-
-	vector<int> inputMerge(100);
-	for (int i = 0; i < 100; i++) {
-		inputMerge[i] = rand() % 100;
-	}
-
-	ImpMergeSort(inputMerge, 0, 99);
-	DisplayVector(inputMerge);
-=======
+	*/
+//=======
 int QuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
 	int pivot;//= (rightIndex - leftIndex) / 2;
 	bool ban = true;
@@ -264,10 +245,10 @@ int QuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
 			return pivot;
 		}
 		else if (pivot < value) {
-			leftIndex = pivot - 1;
+			leftIndex = pivot;
 		}
 		else if (pivot > value) {
-			rightIndex = pivot + 1;
+			rightIndex = pivot;
 		}
 	}
 }
@@ -294,10 +275,26 @@ int main() {
 	cout << "15 Largest Element Position: " << result << " The Element itself: " << input.at(result) << endl;
 	DisplayVector(input);
 
-	result = QuickSelect(TenInput, 0, 9, 4);
+	result = QuickSelect(TenInput, 0, 9, 5);
 	cout << "Median Largest Element Position: " << result << " The Element itself: " << TenInput.at(result) << endl;
 	DisplayVector(TenInput);
 
->>>>>>> origin/master
+	Student Ben(111, "Ben", 3.0);
+	Student Mark(1340, "Mark", 2.0);
+
+	if (Ben < Mark) {
+		cout << "Ben goes first" << endl;
+	}
+
+
+
+	vector<int> inputMerge(100);
+	for (int i = 0; i < 100; i++) {
+		inputMerge[i] = rand() % 100;
+	}
+
+	ImpMergeSort(inputMerge, 0, 99);
+	DisplayVector(inputMerge);
+//>>>>>>> origin/master
 	return 0;
 }

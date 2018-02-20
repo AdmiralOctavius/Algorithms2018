@@ -21,15 +21,20 @@ public:
 		gpa = 4.0;
 	}
 	//Can't get const Student &s2 to work
-	bool operator<(Student &s2) const{
+	/*bool operator<(Student &s2) const{
 		if (id < s2.GetId()) {
 			return true;
 		}
 		else {
 			return false;
 		}
+	}*/
+	bool operator<(Student &s2) const {
+		return id < s2.GetId();
 	}
-
+	bool operator>(Student &s2) const {
+		return id > s2.GetId();
+	}
 	const int GetId(){
 		return id;
 	}

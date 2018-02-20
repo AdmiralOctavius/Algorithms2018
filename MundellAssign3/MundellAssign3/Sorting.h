@@ -61,10 +61,11 @@ void InsertionSort(vector<int> &vec, int leftIndex, int rightIndex)//O(n^2)
 	}
 }*/
 
-void Merge(vector<int> &vec, int leftIndex, int midpoint, int rightIndex)//O(n)
+void Merge(vector<int> &vec, vector<int> &tempNumbers, int leftIndex, int midpoint, int rightIndex)//O(n)
 {
 	int mergedSize = rightIndex - leftIndex + 1;
-	static vector<int> tempNumbers(mergedSize);
+	
+	tempNumbers.resize(mergedSize);
 	//tempNumbers.resize(mergedSize);
 
 	int leftPos = leftIndex;
@@ -99,6 +100,7 @@ void Merge(vector<int> &vec, int leftIndex, int midpoint, int rightIndex)//O(n)
 //O(1) memory usage
 //Merge sort is not an in place sort, we make extra vectors to use it
 //O(N) memory usage
+/*
 void MergeSort(vector<int> &vec, int leftIndex, int rightIndex) {//O(nlogn)
 	if (leftIndex < rightIndex) {
 		int midpoint = (rightIndex - leftIndex) / 2;
@@ -108,3 +110,4 @@ void MergeSort(vector<int> &vec, int leftIndex, int rightIndex) {//O(nlogn)
 		Merge(vec, leftIndex, midpoint, rightIndex);
 	}
 }
+*/
