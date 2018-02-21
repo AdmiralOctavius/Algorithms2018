@@ -2,9 +2,11 @@
 #include <vector>
 #include <iostream>
 using namespace std;
+
+
 void DisplayVector(const vector<int> &vec) {
 
-	for (int i = 0; i < vec.size() && i < 100; i++) {
+	for (int i = 0; i < vec.size(); i++) {
 		cout << vec[i] << ", ";
 	}
 	cout << endl;
@@ -31,42 +33,10 @@ void InsertionSort(vector<int> &vec, int leftIndex, int rightIndex)//O(n^2)
 	}
 }
 
-//O(N)
-/* My incomplete merge code from class void Merge(vector<int> &vec, int leftIndex, int midpoint, int rightIndex) {
-	int mergedSize = rightIndex;
-	vector<int> tempNumbers(mergedSize);
-	int leftPos = leftIndex;
-	int rightPos = midpoint + 1;
-	int mergePos = 0;
-
-	while (leftPos <= midpoint && rightPos <= rightIndex) {
-
-		if (vec[leftPos] < vec[rightPos]) {
-			tempNumbers[mergePos++] = vec[leftPos++];
-		}
-		else {
-			tempNumbers[mergePos++] = vec[rightPos++];
-		}
-	}
-	//Only one of these while loops could ever run after the first while loop
-	while (leftPos <= midpoint) {
-		tempNumbers[mergePos++] = vec[leftPos++];
-	}
-	while (rightPos <= tempNumbers[mergePos++]) {
-		tempNumbers[mergePos++] = vec[rightPos++];
-	}
-
-	for (int i = 0; i < mergedSize; i++) {
-
-	}
-}*/
-
-void Merge(vector<int> &vec, vector<int> &tempNumbers, int leftIndex, int midpoint, int rightIndex)//O(n)
+void Merge(vector<int> &vec, int leftIndex, int midpoint, int rightIndex)//O(n)
 {
 	int mergedSize = rightIndex - leftIndex + 1;
-	
-	tempNumbers.resize(mergedSize);
-	//tempNumbers.resize(mergedSize);
+	vector<int> tempNumbers(mergedSize);
 
 	int leftPos = leftIndex;
 	int rightPos = midpoint + 1;
@@ -100,14 +70,52 @@ void Merge(vector<int> &vec, vector<int> &tempNumbers, int leftIndex, int midpoi
 //O(1) memory usage
 //Merge sort is not an in place sort, we make extra vectors to use it
 //O(N) memory usage
-/*
-void MergeSort(vector<int> &vec, int leftIndex, int rightIndex) {//O(nlogn)
-	if (leftIndex < rightIndex) {
-		int midpoint = (rightIndex - leftIndex) / 2;
+void MergeSort(vector<int> &vec, int leftIndex, int rightIndex)//O(nlogn)
+{
+	if (leftIndex < rightIndex)
+	{
+		int midpoint = (rightIndex + leftIndex) / 2;
 
 		MergeSort(vec, leftIndex, midpoint);
 		MergeSort(vec, midpoint + 1, rightIndex);
 		Merge(vec, leftIndex, midpoint, rightIndex);
 	}
 }
-*/
+
+
+int Partition(vector<int> &vec, int leftIndex, int rightIndex)//O(n)
+{
+	//Pick a pivot value, such as the last value in the section
+	int randIndex = rand() % (rightIndex - leftIndex) + leftIndex;
+	swap(vec[randIndex], vec[rightIndex]);
+	int pivot = vec[rightIndex];
+
+	//Then for every value smaller than the pivot, swap it into the left half of the section
+	int j = leftIndex;
+	for (int i = leftIndex; i < rightIndex; ++i)
+	{
+		if (vec[i] < pivot)
+			Swap(vec[i], vec[j++]);
+	}
+
+	//Then swap the pivot value into the middle of the section
+	Swap(vec[rightIndex], vec[j]);
+
+	//Finally, return the index of the pivot value
+
+	return j;
+}
+
+void Quicksort(vector<int> &vec, int leftIndex, int rightIndex) { //O(n^2), Average(O(nlog(n))
+
+
+	if (leftIndex >= rightIndex) {
+		return;
+	}
+
+	int pivotIndex = Partition(vec, leftIndex, rightIndex);
+
+	Quicksort(vec, leftIndex, pivotIndex - 1);
+	Quicksort(vec, pivotIndex + 1, rightIndex);
+
+}
