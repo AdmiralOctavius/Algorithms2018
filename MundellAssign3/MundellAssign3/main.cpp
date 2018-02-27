@@ -136,6 +136,7 @@ int main() {
 		TenInput.at(i) = rand() % 100;
 	}
 	
+	
 	//Check Quick Select
 	int result;
 	//Testing with 3
@@ -157,9 +158,14 @@ int main() {
 	//Testing with 5 as the median
 	result = QuickSelect(TenInput, 0, 9, 5);
 	cout << "Median Largest Element Position: " << result << " The Element itself: " << TenInput.at(result) << endl;
-	Quicksort(input, 0, 99);
-	DisplayVector(input);
+	Quicksort(TenInput, 0, 9);
+	DisplayVector(TenInput);
 
+	//Testing with 5 as the median
+	result = QuickSelect(TenInput, 0, 9, 2);
+	cout << "Median Largest Element Position: " << result << " The Element itself: " << TenInput.at(result) << endl;
+	Quicksort(TenInput, 0, 9);
+	DisplayVector(TenInput);
 
 	vector<int> inputMerge(100);
 	for (int i = 0; i < 100; i++) {
@@ -266,5 +272,5 @@ int main() {
 	sort(studentTable.begin(), studentTable.end());
 
 	DisplayVectorStudent(studentTable);
-	return 0;
+			return 0;
 }
