@@ -1,3 +1,15 @@
+/**
+Student: Isaac Bennett
+Class: CIT 238
+Professor: Matt Mundell
+Assignment: Assignment 3
+-----
+Notes: Spent a lot of time on the Quick Select function,
+I understand how partitioning works now however!
+***/
+
+
+
 #include <iostream>
 #include <vector>
 #include <time.h>
@@ -10,243 +22,97 @@
 using namespace std;
 
 
+//Created a slightly adjusted merge function to work with the new MergeSort function
+void newMerge(vector<int> &vec, vector<int> &tempNumbers, int leftIndex, int midpoint, int rightIndex)//O(n)
+{
+	int mergedSize = rightIndex - leftIndex + 1;
+
+	//Resizing our static vector each time this is called
+	tempNumbers.resize(mergedSize);
+
+
+	int leftPos = leftIndex;
+	int rightPos = midpoint + 1;
+	int mergePos = 0;
+
+	//Compares first number in both sections, taking the smallest each time
+	//Until one section is empty
+	//This while loop is the bulk of merge sort
+	while (leftPos <= midpoint && rightPos <= rightIndex)
+	{
+		if (vec[leftPos] < vec[rightPos])
+			tempNumbers[mergePos++] = vec[leftPos++];
+		else
+			tempNumbers[mergePos++] = vec[rightPos++];
+	}
+
+	//Takes any numbers left in the left half of the section
+	while (leftPos <= midpoint)
+		tempNumbers[mergePos++] = vec[leftPos++];
+
+	//Takes any numbers left over in the right half of the section
+	while (rightPos <= rightIndex)
+		tempNumbers[mergePos++] = vec[rightPos++];
+
+	//Copies the sorted numbers back into the original array
+	for (int i = 0; i < mergedSize; ++i)
+		vec[leftIndex + i] = tempNumbers[i];
+}
+
+//Better merge sort function
 void ImpMergeSort(vector<int> &vec, int leftIndex, int rightIndex) {//O(nlogn)
 
 	if (leftIndex < rightIndex) {
-		int midpoint = (rightIndex - leftIndex) / 2;
+		int midpoint = (rightIndex + leftIndex) / 2;
+		//Check if the range is less than ten
 		if ((rightIndex - leftIndex) < 10) {
 			InsertionSort(vec, leftIndex, midpoint);
 		}
+		//If the range is larger than ten, call mergeSort again
 		else {
 			ImpMergeSort(vec, leftIndex, midpoint);
 		}
 
-		if ((rightIndex - (midpoint+1)) < 10) {
-			InsertionSort(vec, midpoint + 1, rightIndex);
+		//Same as the first half
+		if ((rightIndex - (midpoint)) < 10) {
+			InsertionSort(vec, midpoint+1, rightIndex);
 		}
+		
 		else {
-			ImpMergeSort(vec, midpoint + 1, rightIndex);
+			ImpMergeSort(vec, midpoint+1, rightIndex);
 		}
+
+		//Create static vector that is only created once
 		static vector<int> tempNumbers(rightIndex - leftIndex + 1);
-		Merge(vec, tempNumbers, leftIndex, midpoint, rightIndex);
+		//Pass in static vector to new merge function
+		newMerge(vec, tempNumbers, leftIndex, midpoint, rightIndex);
 	}
 }
-/*
-int Partition(vector<int> &vec, int leftIndex, int rightIndex) {//O(n)
-															//Pick a pivot value, such as the last value
-	//Not sure why we get a random index
-	int randIndex = rand() % (rightIndex - leftIndex) + leftIndex;
-	//Gets a random pivot index
-	swap(vec[randIndex], vec[rightIndex]);
-
-	//This gets the middle of the selection
-	//We don't need this anymore
-	//int middle = leftIndex + (rightIndex - leftIndex) / 2;
-	int pivot = randIndex;
-	//Sets pivot to right Index
-	//int pivot = vec[rightIndex];
-	//int temp;
-
-	//If the result is less than 2 it's an error?
-	if ((rightIndex - leftIndex) < 2) {
-		return -1;
-	}
 
 
-	//Secondary iterator
-	int j = leftIndex;
-
-	//For loop
-	for (int i = leftIndex; i < rightIndex; ++i) {
-		//Swaps the vectorPos at i with a position in the vector at j
-		
-		if (vec.at(i) < pivot) {
-			Swap(vec.at(i), vec.at(j++));
-		}
-	}
-	//Swap the end result of j with right index? This should give us
-	Swap(vec[rightIndex], vec[j]);
-<<<<<<< HEAD
-	//No need for this
-	//change pivot to the middle position
-	//pivot = vec[middle];
-	//Give the new middle / pivot value
-=======
-	pivot = vec[middle];
-	return pivot;
-}*/
-int Partition(vector<int> &vec, int leftIndex, int rightIndex)//O(n)
-{
-	//Pick a pivot value, such as the last value in the section
-	int randIndex = rand() % (rightIndex - leftIndex) + leftIndex;
-	swap(vec[randIndex], vec[rightIndex]);
-	int pivot = vec[rightIndex];
-
-	//Then for every value smaller than the pivot, swap it into the left half of the section
-	int j = leftIndex;
-	for (int i = leftIndex; i < rightIndex; ++i)
-	{
-		if (vec[i] < pivot)
-			Swap(vec[i], vec[j++]);
-	}
-
-	//Then swap the pivot value into the middle of the section
-	Swap(vec[rightIndex], vec[j]);
-
-	//Finally, return the index of the pivot value
-//>>>>>>> origin/master
-	return j;
-}
-int ParPartition(vector<int> &vec, int leftIndex, int rightIndex, int pivot) {//O(n)
-
-	swap(vec[pivot], vec[rightIndex]);
-
-
-
-	//Secondary iterator
-	int j = rightIndex;
-
-	//For loop
-	for (int i = leftIndex; i < rightIndex; ++i) {
-		//Swaps the vectorPos at i with a position in the vector at j
-
-		if (vec.at(i) < pivot) {
-		}
-		if (vec.at(i) > pivot) {
-			
-				Swap(vec.at(i), vec.at(j));
-				j--;
-				if (vec.at(j) < pivot) {
-					Swap(vec.at(j), vec.at(i));
-				}
-			
-		}
-	}
-	//Swap the end result of j with right index? This should give us
-	Swap(vec[rightIndex], vec[j]);
-	//No need for this
-	//change pivot to the middle position
-	//pivot = vec[middle];
-	//Give the new middle / pivot value
-	return j;
-}
-int wikiPartition(vector<int> &vec, int leftIndex, int rightIndex, int pivot) {
-	int pivotVal = vec[pivot];
-	Swap(vec[pivot], vec[rightIndex]);
-	int storedIndex = leftIndex;
-	for (int i=0; i < vec.size(); i++) {
-		if (vec[i] < pivotVal) {
-			Swap(vec[storedIndex], vec[i]);
-			storedIndex++;
-		}
-	}
-	Swap(vec[rightIndex], vec[storedIndex]);
-	return storedIndex;
-}
-int OldQuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
-	//Check if there's only one element
-	if (vec.size() == 1) {
-		return vec[0];
-	}
-	
-	int target = vec.size() - value;
-	//Use something similar to quick sort to move 
-	//all the smaller values into the left half, 
-	//all the bigger vals into the right half.
-	//Should get middle of position
-	int pivot = ((rightIndex - leftIndex) / 2) + leftIndex;
-	//This needs to be the middle
-	//Should it be random
-
-	if(pivot == target){
-		//This is the end
-		return pivot;
-	}
-
-//<<<<<<< HEAD
-	//While loop of calculations
-	while(pivot != target){
-		if (( rightIndex - leftIndex) <= 0) {
-			pivot = rightIndex;
-			break;
-		}
-		pivot = wikiPartition(vec, leftIndex, rightIndex, pivot);
-		if (pivot < target) {
-			leftIndex = pivot + 1;
-		}
-		if (pivot > target){
-			rightIndex = pivot - 1;
-		}
-		
-		
-	}	
-
-	//Return the position of that element
-	return pivot;
-}
-//=======
-//In place sort - only moves numbers in the original array
-//O(1) memory usage
-//Merge sort is not an in place sort, we make extra vectors to use it
-//O(N) memory usage
-/*void MergeSort(vector<int> &vec, int leftIndex, int rightIndex) {//O(nlogn)
-	if (leftIndex < rightIndex) {
-		int midpoint = (rightIndex - leftIndex) / 2;
-
-		MergeSort(vec, leftIndex, midpoint);
-		MergeSort(vec, midpoint + 1), rightIndex;
-		Merge(vec, leftIndex, midpoint);
-	}
-}*/
-//>>>>>>> origin/master
-
-
-void Quicksort(vector<int> &vec, int leftIndex, int rightIndex) { //O(n^2), Average(O(nlog(n))
-
-
-	if (leftIndex >= rightIndex) {
-		return;
-	}
-
-	int pivotIndex = Partition(vec, leftIndex, rightIndex);
-
-	Quicksort(vec, leftIndex, pivotIndex - 1);
-	Quicksort(vec, pivotIndex + 1, rightIndex);
-
-	string name;
-}
-/*
-//<<<<<<< HEAD
-int main() {
-
-	
-	vector<int> input(100);
-	for (int i = 0; i < 100; i++) {
-		input[i] = rand() % 100;
-	}
-	DisplayVector(input);
-	int numGet = 5;
-	//int position = QuickSelect(input, 0, 99, numGet);
-	//cout << numGet << " number" << input[position] << endl;
-	
-	sort(input.begin(), input.end());
-
-	DisplayVector(input);
-
-	*/
-//=======
+//Note this is not recursive and there is no recursive function.
+//I wrote this from start to finish in iterative fashion
+//(We discussed this in an email that this was fine!)
 int QuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
-	int pivot;//= (rightIndex - leftIndex) / 2;
+	int pivot;
+	//Simple bool to keep the while loop forever going, was recieving errors checking against pivot != value
 	bool ban = true;
+	//Create a variable to be equal to the k formula for this function
 	value = vec.size() - value;
 	while (ban) {
+		//Call partition to continue searching for the element
 		pivot = Partition(vec, leftIndex, rightIndex);
+
+		//Check if we found the value we needed
 		if (pivot == value) {
 			return pivot;
 		}
+
+		//Check if smaller
 		else if (pivot < value) {
 			leftIndex = pivot;
 		}
+		//Check if larger
 		else if (pivot > value) {
 			rightIndex = pivot;
 		}
@@ -255,46 +121,156 @@ int QuickSelect(vector<int> &vec, int leftIndex, int rightIndex, int value) {
 
 int main() {
 
+	Timer timer;
+
+	//Setup numbers for Quick Select checking
 	vector<int> input(100);
 	for (int i = 0; i < 100; i++) {
 		input.at(i) = rand() % 100;
 	}
+	vector<int> inputSave(100);
+	inputSave = input;
 
 	vector<int> TenInput(10);
 	for (int i = 0; i < 10; i++) {
 		TenInput.at(i) = rand() % 100;
 	}
-
-
+	
+	
+	//Check Quick Select
 	int result;
+	//Testing with 3
 	result = QuickSelect(input, 0, 99, 3);
 	cout << "Third Largest Element Position: " << result << " The Element itself: " << input.at(result) << endl;
+	//Sort the vector
+	Quicksort(input,0,99);
 	DisplayVector(input);
 
+	//Reset vector
+	input = inputSave;
+
+	//Testing with 15
 	result = QuickSelect(input, 0, 99, 15);
 	cout << "15 Largest Element Position: " << result << " The Element itself: " << input.at(result) << endl;
+	Quicksort(input, 0, 99);
 	DisplayVector(input);
 
+	//Testing with 5 as the median
 	result = QuickSelect(TenInput, 0, 9, 5);
 	cout << "Median Largest Element Position: " << result << " The Element itself: " << TenInput.at(result) << endl;
+	Quicksort(TenInput, 0, 9);
 	DisplayVector(TenInput);
 
-	Student Ben(111, "Ben", 3.0);
-	Student Mark(1340, "Mark", 2.0);
-
-	if (Ben < Mark) {
-		cout << "Ben goes first" << endl;
-	}
-
-
+	//Testing with 5 as the median
+	result = QuickSelect(TenInput, 0, 9, 2);
+	cout << "Median Largest Element Position: " << result << " The Element itself: " << TenInput.at(result) << endl;
+	Quicksort(TenInput, 0, 9);
+	DisplayVector(TenInput);
 
 	vector<int> inputMerge(100);
 	for (int i = 0; i < 100; i++) {
 		inputMerge[i] = rand() % 100;
 	}
-
+	cout << "InputMerge function runtime at 100: ";
+	timer.Start();
 	ImpMergeSort(inputMerge, 0, 99);
-	DisplayVector(inputMerge);
-//>>>>>>> origin/master
-	return 0;
+	timer.Stop();
+	timer.Report();
+	//DisplayVector(inputMerge);
+	cout << endl << endl;
+
+	vector<int> inputOldMerge(100);
+	for (int i = 0; i < 100; i++) {
+		inputOldMerge[i] = rand() % 100;
+	}
+	cout << "MergeSort function runtime at 100: ";
+	timer.Start();
+	MergeSort(inputOldMerge, 0, 99);
+	timer.Stop();
+	timer.Report();
+	//DisplayVector(inputOldMerge);
+	cout << endl << endl;
+
+	
+	vector<int> inputMergethou(1000);
+	for (int i = 0; i < 1000; i++) {
+		inputMergethou[i] = rand() % 1000;
+	}
+	cout << "InputMerge function runtime at 1000: ";
+	timer.Start();
+	ImpMergeSort(inputMergethou, 0, 999);
+	timer.Stop();
+	timer.Report();
+	//DisplayVector(inputMergethou);
+	cout << endl << endl;
+
+	vector<int> inputOldMergethou(1000);
+	for (int i = 0; i < 1000; i++) {
+		inputOldMergethou[i] = rand() % 1000;
+	}
+	cout << "MergeSort function runtime at 1000: ";
+	timer.Start();
+	MergeSort(inputOldMergethou, 0, 999);
+	timer.Stop();
+	timer.Report();
+	//DisplayVector(inputOldMergethou);
+	cout << endl << endl;
+
+	vector<int> inputMergetenthou(10000);
+	for (int i = 0; i < 10000; i++) {
+		inputMergetenthou[i] = rand() % 10000;
+	}
+	cout << "InputMerge function runtime at 10000: ";
+	timer.Start();
+	ImpMergeSort(inputMergetenthou, 0, 9999);
+	timer.Stop();
+	timer.Report();
+	//DisplayVector(inputMergetenthou);
+	cout << endl << endl;
+
+	vector<int> inputOldMergetenthou(10000);
+	for (int i = 0; i < 10000; i++) {
+		inputOldMergetenthou[i] = rand() % 10000;
+	}
+	cout << "MergeSort function runtime at 100: ";
+	timer.Start();
+	MergeSort(inputOldMergetenthou, 0, 9999);
+	timer.Stop();
+	timer.Report();
+	//DisplayVector(inputOldMergetenthou);
+	cout << endl << endl;
+
+	//Student Class section
+
+
+	Student Ben(111, "Ben", 3.0);
+	Student Mark(1340, "Mark", 2.0);
+	
+	if (Ben < Mark) {
+		cout << "Ben goes first" << endl;
+	}
+	Ben.SetId(2222);
+	if (Ben > Mark) {
+		cout << "Ben goes Last" << endl;
+	}
+
+	vector<Student> studentTable;
+	studentTable.push_back(Student(1, "Jim", 2.0));
+	studentTable.push_back(Student(2, "Johhny", 2.0));
+	studentTable.push_back(Student(5, "Steven", 2.0));
+	studentTable.push_back(Student(4, "David", 2.0));
+	studentTable.push_back(Student(9));
+	studentTable.push_back(Student(8, "Brendly", 2.0));
+	studentTable.push_back(Student(6, "Saxton", 2.0));
+	studentTable.push_back(Student(7, "Samus", 2.0));
+	studentTable.push_back(Student(3, "Marco", 2.0));
+	studentTable.push_back(Student(11111, "Denny's", 2.0));
+
+
+	DisplayVectorStudent(studentTable);
+
+	sort(studentTable.begin(), studentTable.end());
+
+	DisplayVectorStudent(studentTable);
+			return 0;
 }

@@ -1,5 +1,4 @@
 ﻿  main.cpp
-c:\users\isaac\documents\github\algorithms2018\mundellassign3\mundellassign3\main.cpp(152): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-c:\users\isaac\documents\github\algorithms2018\mundellassign3\mundellassign3\main.cpp(241): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-c:\users\isaac\documents\github\algorithms2018\mundellassign3\mundellassign3\main.cpp(254): warning C4715: 'QuickSelect': not all control paths return a value
+c:\users\isaac\documents\github\algorithms2018\mundellassign3\mundellassign3\main.cpp(101): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\isaac\documents\github\algorithms2018\mundellassign3\mundellassign3\main.cpp(120): warning C4715: 'QuickSelect': not all control paths return a value
   MundellAssign3.vcxproj -> C:\Users\Isaac\Documents\GitHub\Algorithms2018\MundellAssign3\x64\Debug\MundellAssign3.exe

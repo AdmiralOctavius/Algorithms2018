@@ -2,6 +2,7 @@
 #include <string>
 using namespace std; 
 
+//Class object for student
 class Student {
 private:
 	int id;
@@ -10,31 +11,28 @@ private:
 
 
 public:
+	//Constructor with default values
 	Student(int newId = 901819149, string newName = "Bob", double newGpa = 4.0) {
 		id = newId;
 		name = newName;
 		gpa = newGpa;
 	}
+	//Default Constructor
 	Student() {
 		id = 901819149;
 		name = "Isaac";
 		gpa = 4.0;
 	}
-	//Can't get const Student &s2 to work
-	/*bool operator<(Student &s2) const{
-		if (id < s2.GetId()) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}*/
+	
+	//Overloaded operator, this was hard
 	bool operator<(Student &s2) const {
 		return id < s2.GetId();
 	}
 	bool operator>(Student &s2) const {
 		return id > s2.GetId();
 	}
+
+
 	const int GetId(){
 		return id;
 	}
@@ -55,3 +53,13 @@ public:
 		gpa = newGpa;
 	}
 };
+
+//Put here for simplicity, displays a vector of students
+void DisplayVectorStudent(vector<Student> &vec) {
+
+	for (int i = 0; i < vec.size(); i++) {
+		cout << vec[i].GetName() << ", ";
+	}
+	cout << endl;
+
+}
