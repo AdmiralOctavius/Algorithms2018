@@ -20,7 +20,7 @@ Data: < AoY            > 10 41 6F 59 C8 01 00 00 00 00 00 00 00 00 00 00
 {219} normal block at 0x000001C8596F3A00, 16 bytes long.
 Data: < @oY            > D8 40 6F 59 C8 01 00 00 00 00 00 00 00 00 00 00
 c:\users\matt\downloads\datastructures\datastructures\main.cpp(82) : {218} normal block at 0x000001C8596F40D0, 232 bytes long.
-Data: <         :oY    > 04 00 00 00 00 00 00 00 00 3A 6F 59 C8 01 00 00
+Data: < :oY    > 04 00 00 00 00 00 00 00 00 3A 6F 59 C8 01 00 00
 Object dump complete.
 
 Notice the last one shows which line the 'new' was called that wasn't properly deleted.
