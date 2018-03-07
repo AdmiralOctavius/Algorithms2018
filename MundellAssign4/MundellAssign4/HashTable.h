@@ -191,6 +191,17 @@ public:
 
 		return false;
 	}
+
+	void deleteElement(string key) {
+	
+		if (doesExist(key)) {
+			table[Hash(key)].pop_back();
+		}
+		else {
+			cout << "Element does not exist with given key." << endl;
+		}
+	}
+
 private:
 	vector<vector<ValuePair>> table;
 };
