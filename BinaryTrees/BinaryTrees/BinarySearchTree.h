@@ -14,7 +14,7 @@ public:
 		Node(T val = T(), Node* left = nullptr, Node* right = nullptr)
 			: value(val), leftChild(left), rightChild(right)
 		{
-		
+
 		}
 	};
 
@@ -24,18 +24,37 @@ public:
 	}
 
 	void Add(K insertKey, T val) {//O(log(n))
+		if (!root) {//If tree is empty
+			root = new Node(insertKey, val);
+		}
+		else {
+			AddHelper(root, insertKey, val);
 
+		}
 	}
+
+
 
 	T search(K searchKey) {//O(log(n))
 
 	}
 
-	void Remove(K searchKey) {//O(log(n))
+	void Delete(K searchKey) {//O(log(n))
 
 	}
 
+	void DisplayInOrder() {
+		DisplayInOrderHelper(root);
+	}
 
+	void DisplayPreOrder(){
+		DisplayPreOrderHelper(root);
+	}
+
+	void DisplayPostOrder() {
+		DisplayPreOrderHelper(root);
+	}
+	//Display
 	~BinarySearchTree() {
 
 	}
@@ -44,4 +63,41 @@ private:
 	Node* root = nullptr;
 	int size = 0;
 
+	void AddHelper(Node* node, K insertKey, T val) {
+		if (node == nullptr) {
+			node = new Node(insertKey, val);
+		}
+		else if (insertKey < temp->key) {//goto the left
+			AddHelper(node->left, insertKey, val);
+		}
+		else {//goto the right
+			AddHelper(node->right, insertKey, val);
+		}
+	}
+
+	void DisplayInOrderHelper(Node* node) {//In order
+		if (node) {//Base case
+			DisplayInOrderHelper(node->left);//Display left subtree
+			cout << node->value << ", ";
+			DisplayInOrderHelper(node->right);//Display right subtree
+		}
+		
+	}
+	void DisplayPreOrderHelper(Node* node) {//Parent first
+		if (node) {//Base case
+			cout << node->value << ", ";
+			DisplayPreOrderHelper(node->left);//Display left subtree
+			DisplayPreOrderHelper(node->right);//Display right subtree
+		}
+
+	}
+
+	void DisplayPostOrderHelper(Node* node) {//children first then parent
+		if (node) {//Base case
+			DisplayPostOrderHelper(node->left);//Display left subtree
+			DisplayPostOrderHelper(node->right);//Display right subtree
+			cout << node->value << ", ";
+		}
+
+	}
 };

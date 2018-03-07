@@ -56,3 +56,5 @@ MundellAssign4/.vs/MundellAssign4/v15/ipch/AutoPCH/49b4d6e6da5fb1ce/LINKEDLIST.i
 *.idb
 MundellAssign4/.vs/MundellAssign4/v15/Browse.VC.db
 MundellAssign4/.vs/MundellAssign4/v15/Browse.VC.opendb
+*.db
+BinaryTrees/.vs/BinaryTrees/v15/.suo
