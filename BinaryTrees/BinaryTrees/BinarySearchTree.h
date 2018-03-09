@@ -40,7 +40,7 @@ public:
 	}
 
 	void Delete(K searchKey) {//O(log(n))
-
+		DeleteHelper(searchKey);
 	}
 
 	void DisplayInOrder() {
@@ -99,5 +99,31 @@ private:
 			cout << node->value << ", ";
 		}
 
+	}
+
+	T SearchHelper(Node* node, K searchKey) {
+		if (node->key == searchKey) {
+			return node->value;
+		}
+		else if (searchKey > node->key) {
+			return SearchHelper(node->right, searchKey);
+		}
+		else {
+			return SearchHelper(node->left, searchKey);
+		}
+	}
+
+	void DeleteHelper(Node* node, K searchKey) {
+		if (node) {
+			if (searchKey == node->key) {
+
+			}
+			else if (searchKey > node->key) {
+				DeleteHelper(node->right, searchKey);
+			}
+			else{
+				DeleteHelper(node - left, searchKey);
+			}
+		}
 	}
 };

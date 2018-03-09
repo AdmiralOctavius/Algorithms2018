@@ -58,3 +58,6 @@ MundellAssign4/.vs/MundellAssign4/v15/Browse.VC.db
 MundellAssign4/.vs/MundellAssign4/v15/Browse.VC.opendb
 *.db
 BinaryTrees/.vs/BinaryTrees/v15/.suo
+*.opendb
+*.db
+*.db
