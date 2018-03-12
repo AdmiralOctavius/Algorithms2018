@@ -255,25 +255,43 @@ private:
 
 		Node* currentNode = node;
 		while (notDone == false) {
-			if (currentNode->left != nullptr) {
+			if (currentNode->left != nullptr && currentNode != hitStack.top()) {
 				//Cannot call hitstack When empty
-				if (currentNode != hitStack.top()) {
+				
 					output.push(currentNode);
 					currentNode = currentNode->left;
-				}
+				
 			}
-			else if (currentNode->right != nullptr) {
-				if (currentNode != hitStack.top()) {
+			else if (currentNode->right != nullptr && currentNode != hitStack.top()) {
+				
 					output.push(currentNode);
 					currentNode = currentNode->right;
-				}
+				
 			}
 			//Gets stuck in a loop here
-			else if (currentNode != output.top() && currentNode->left == nullptr && currentNode->right == nullptr) {
+			else if (currentNode != output.top() && currentNode->left == nullptr && currentNode->right == nullptr && currentNode != hitStack.top()) {
+				
+					cout << currentNode->key << ": " << currentNode->value << ", ";
+					//Reassign current node here
+					hitStack.push(currentNode);
+					currentNode = output.top();
+					output.pop();
+				
+			}
+			//Create instance where both paths are in hit stack
+			else if (currentNode->left == hitStack.top() && currentNode->right == nullptr || currentNode->right == hitStack.top() && currentNode->left==nullptr) {
+
 				cout << currentNode->key << ": " << currentNode->value << ", ";
-				//Reassign current node here
-				output.pop();
 				hitStack.push(currentNode);
+				currentNode = output.top();
+				output.pop();
+			}
+		
+			else if (currentNode->left != nullptr && currentNode->right == hitStack.top()) {
+				cout << currentNode->key << ": " << currentNode->value << ", ";
+				hitStack.push(currentNode);
+				currentNode = output.top();
+				output.pop();
 			}
 			else {
 				//Should be done
