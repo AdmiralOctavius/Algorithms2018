@@ -138,7 +138,6 @@
     <ClInclude Include="HashTable.h" />
     <ClInclude Include="linkedList.h" />
     <ClInclude Include="MemLeakDetector.h" />
-    <ClInclude Include="OldMode.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>

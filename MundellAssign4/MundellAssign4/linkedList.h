@@ -106,7 +106,7 @@ public:
 		//tail = temp;
 
 		//Assignment 4: Doubly Linked List Method (O(1)) (Hint: Draw it!)		
-		//???
+		//Added it through
 		Node* temp = tail;
 		tail->prev->next = nullptr;
 		tail = tail->prev;

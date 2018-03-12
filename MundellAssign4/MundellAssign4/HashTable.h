@@ -177,6 +177,10 @@ public:
 	//A reference can't be null, and can't be reassigned
 
 
+
+
+	//Added code for HashTable
+
 	//Need to create a function to find if a value is in the array
 	bool doesExist(string key)const {
 
@@ -195,12 +199,16 @@ public:
 	void deleteElement(string key) {
 	
 		if (doesExist(key)) {
+			//delete table[Hash(key)].data();
 			table[Hash(key)].pop_back();
+		
 		}
 		else {
 			cout << "Element does not exist with given key." << endl;
 		}
 	}
+
+	//End of added code
 
 private:
 	vector<vector<ValuePair>> table;
