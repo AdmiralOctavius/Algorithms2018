@@ -255,14 +255,14 @@ private:
 
 		Node* currentNode = node;
 		while (notDone == false) {
-			if (currentNode->left != nullptr && currentNode != hitStack.top()) {
+			if (currentNode->left != nullptr && currentNode->left != hitStack.top()) {
 				//Cannot call hitstack When empty
 				
 					output.push(currentNode);
 					currentNode = currentNode->left;
 				
 			}
-			else if (currentNode->right != nullptr && currentNode != hitStack.top()) {
+			else if (currentNode->right != nullptr && currentNode->right != hitStack.top()) {
 				
 					output.push(currentNode);
 					currentNode = currentNode->right;
@@ -285,6 +285,9 @@ private:
 				hitStack.push(currentNode);
 				currentNode = output.top();
 				output.pop();
+				cout << currentNode->key << ": " << currentNode->value << ", ";
+				hitStack.push(currentNode);
+				//output.pop();
 			}
 		
 			else if (currentNode->left != nullptr && currentNode->right == hitStack.top()) {
@@ -292,6 +295,9 @@ private:
 				hitStack.push(currentNode);
 				currentNode = output.top();
 				output.pop();
+				cout << currentNode->key << ": " << currentNode->value << ", ";
+				hitStack.push(currentNode);
+				//output.pop();
 			}
 			else {
 				//Should be done
