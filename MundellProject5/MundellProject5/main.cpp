@@ -19,7 +19,7 @@ int main() {
 
 	testTree.DisplayInOrderIterative();
 
-
+	testTree.Balance();
 	return 0;
 
 }

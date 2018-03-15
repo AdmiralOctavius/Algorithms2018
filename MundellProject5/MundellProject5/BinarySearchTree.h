@@ -45,6 +45,7 @@ public:
 
 	void Add(K insertKey, T val)//O(log(n))
 	{
+		size++;
 		if (!root)//if tree is empty
 			root = new Node(insertKey, val);
 		else
@@ -137,16 +138,15 @@ public:
 	}
 
 	void Balance() {
-		vector<Node> nodeSave;
 
-		//Iterate through vector, make an adapted display function
-		//Modified display function needs to delete as well
+		vector<Node> nodeVec;
 
-		//Simply shuffle the vector
+		FeedInOrderHelper(root, nodeVec);
 
-		//Create a while loop to readd the stuff back in
+		for (int i = 0; i < nodeVec.size(); i++) {
 
-
+			cout << nodeVec.at(i).value << ", ";
+		}
 	}
 
 private:
@@ -247,7 +247,7 @@ private:
 			DisplayInOrderHelper(node->right);//display right subtree
 		}*/
 		bool notDone = false;
-
+		int sizes = size;
 		stack <Node*> output;
 		stack <Node*> hitStack;
 		//output.push(node);
@@ -255,7 +255,16 @@ private:
 
 		Node* currentNode = node;
 		while (notDone == false) {
-			if (currentNode->left != nullptr && currentNode->left != hitStack.top()) {
+			if (hitStack.size() > sizes) {
+				break;
+			}
+			else if (currentNode == root && currentNode->left == hitStack.top()) {
+				cout << currentNode->key << ": " << currentNode->value << ", ";
+				hitStack.push(currentNode);
+				currentNode = currentNode->right;
+				//output.pop();
+			}
+			else if (currentNode->left != nullptr && currentNode->left != hitStack.top()) {
 				//Cannot call hitstack When empty
 				
 					output.push(currentNode);
@@ -263,7 +272,8 @@ private:
 				
 			}
 			else if (currentNode->right != nullptr && currentNode->right != hitStack.top()) {
-				
+					cout << currentNode->key << ": " << currentNode->value << ", ";
+					hitStack.push(currentNode);
 					output.push(currentNode);
 					currentNode = currentNode->right;
 				
@@ -285,8 +295,8 @@ private:
 				hitStack.push(currentNode);
 				currentNode = output.top();
 				output.pop();
-				cout << currentNode->key << ": " << currentNode->value << ", ";
-				hitStack.push(currentNode);
+				//cout << currentNode->key << ": " << currentNode->value << ", ";
+				//hitStack.push(currentNode);
 				//output.pop();
 			}
 		
@@ -295,8 +305,17 @@ private:
 				hitStack.push(currentNode);
 				currentNode = output.top();
 				output.pop();
+				//cout << currentNode->key << ": " << currentNode->value << ", ";
+				//hitStack.push(currentNode);
+				//output.pop();
+			}
+			else if (currentNode->right != nullptr && currentNode->left == hitStack.top()) {
 				cout << currentNode->key << ": " << currentNode->value << ", ";
 				hitStack.push(currentNode);
+				currentNode = output.top();
+				output.pop();
+				//cout << currentNode->key << ": " << currentNode->value << ", ";
+				//hitStack.push(currentNode);
 				//output.pop();
 			}
 			else {
@@ -330,4 +349,16 @@ private:
 			cout << node->key << ": " << node->value << ", ";//print parent
 		}
 	}
+
+	void FeedInOrderHelper(Node* node, vector<Node>& nodeVec)
+	{
+		if (node)//Base Case
+		{
+			//General Case
+			FeedInOrderHelper(node->left, nodeVec);//display left subtree
+			nodeVec.push_back(*node);
+			FeedInOrderHelper(node->right, nodeVec);//display right subtree
+		}
+	}
+	
 };
