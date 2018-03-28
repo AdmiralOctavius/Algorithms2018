@@ -119,6 +119,47 @@ public:
 		}
 	}
 
+	void IterativeAdd(vector<Node*>& nodeVals)
+	{
+		int i = 0;
+		if (root == nullptr)
+		{
+			root = nodeVals[i];
+			++size;
+			i++;
+		}
+		else
+		{
+			Node* temp = root;
+			while (temp != nullptr)
+			{
+				if (temp->key > nodeVals[i]->insertKey)
+				{
+					if (temp->left == nullptr)
+					{
+						temp->left = nodeVals[i];
+						++size;
+						i++;
+						break;
+					}
+					else
+						temp = temp->left;
+				}
+				else
+				{
+					if (temp->right == nullptr)
+					{
+						temp->right = nodeVals[i];
+						++size;
+						i++;
+						break;
+					}
+					else
+						temp = temp->right;
+				}
+			}
+		}
+	}
 	bool IterativeSearch(K searchKey, T& result) const
 	{
 		Node* temp = root;
@@ -138,14 +179,35 @@ public:
 	}
 
 	void Balance() {
+		//Store nodes
+		vector<Node*> nodeVals;
 
-		vector<Node> nodeVec;
+		//Get nodes
+		FeedInOrderHelper(root, nodeVals);
 
-		FeedInOrderHelper(root, nodeVec);
+		//Display real fast
+		for (int i = 0; i < nodeVals.size(); i++) {
 
-		for (int i = 0; i < nodeVec.size(); i++) {
+			cout << nodeVals.at(i)->value << ", ";
+		}
 
-			cout << nodeVec.at(i).value << ", ";
+
+		//delete root
+		root == nullptr;
+		//Set size to 0
+		size = 0;
+
+		//assign all node pointers to null
+		for (int i = 0; i < nodeVals.size(); i++) {
+			nodeVals[i]->left = nullptr;
+			nodeVals[i]->right = nullptr;
+			//cout << "Left: " << nodeVals[i]->left << " , Right: " << nodeVals[i]->right << " |";
+		}
+
+		//shuffle vector
+		//readd items
+		for (int i = 0; i < nodeVals.size(); i++) {
+
 		}
 	}
 
@@ -350,14 +412,14 @@ private:
 		}
 	}
 
-	void FeedInOrderHelper(Node* node, vector<Node>& nodeVec)
+	void FeedInOrderHelper(Node* node, vector<Node*>& nodeVals)
 	{
 		if (node)//Base Case
 		{
 			//General Case
-			FeedInOrderHelper(node->left, nodeVec);//display left subtree
-			nodeVec.push_back(*node);
-			FeedInOrderHelper(node->right, nodeVec);//display right subtree
+			FeedInOrderHelper(node->left, nodeVals);//display left subtree
+			nodeVals.push_back(node);
+			FeedInOrderHelper(node->right, nodeVals);//display right subtree
 		}
 	}
 	
