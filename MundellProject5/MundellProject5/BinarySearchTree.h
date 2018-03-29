@@ -69,7 +69,7 @@ public:
 	}
 
 	void DisplayInOrderIterative() {
-		DisplayInOrderHelperIterative(root);
+		DisplayInOrderHelperIterative2(root);
 	}
 
 	void DisplayPreOrder()
@@ -385,6 +385,73 @@ private:
 
 	}
 
+	void DisplayInOrderHelperIterative2(Node* node)
+	{
+		/*if (node)//Base Case
+		{
+		//General Case
+		DisplayInOrderHelper(node->left);//display left subtree
+		cout << node->key << ": " << node->value << ", ";//display parent
+		DisplayInOrderHelper(node->right);//display right subtree
+		}*/
+		bool notDone = false;
+		bool hitLeft = false;
+		bool noLeft = false;
+		int sizes = size;
+		stack <Node*> output;
+		//stack <Node*> hitStack;
+		//output.push(node);
+		//hitStack.push(nullptr);
+
+		Node* currentNode = node;
+		while (currentNode != nullptr || !output.empty()) {
+			if (currentNode == nullptr) {
+				currentNode = output.top();
+				output.pop();
+
+
+			}
+
+			if (currentNode->left != nullptr && noLeft == false) {
+				output.push(currentNode);
+				currentNode = currentNode->left;
+				continue;
+			}
+			if (currentNode->left == nullptr && hitLeft == false) {
+				hitLeft = true;
+				noLeft = true;
+			}
+
+			cout << " " << currentNode->key << ": " << currentNode->value << ", ";
+			
+
+			if (currentNode->right != nullptr) {
+				output.push(currentNode);
+				currentNode = currentNode->right;
+				noLeft = false;
+				continue;
+			}
+
+			currentNode = output.top();
+			output.pop();
+			cout << " " << currentNode->key << ": " << currentNode->value << ", ";
+			noLeft = true;
+
+			if (currentNode->right != nullptr) {
+				currentNode = currentNode->right;
+				noLeft = false;
+				continue;
+			}
+			else {
+				currentNode = output.top();
+				output.pop();
+				cout << " " << currentNode->key << ": " << currentNode->value << ", ";
+			}
+
+			
+		}
+
+	}
 
 
 	void DisplayPreOrderHelper(Node* node)//Print parent first, then left child, then right child. Root appears first
