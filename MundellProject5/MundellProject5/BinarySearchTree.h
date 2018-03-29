@@ -5,6 +5,7 @@
 #include <string>
 #include <assert.h>
 #include <stack>
+#include <algorithm>
 using namespace std;
 
 //Tree - contains nodes that point to any number of child nodes, without any cycles or loops (then it would be a Graph)
@@ -119,47 +120,6 @@ public:
 		}
 	}
 
-	void IterativeAdd(vector<Node*>& nodeVals)
-	{
-		int i = 0;
-		if (root == nullptr)
-		{
-			root = nodeVals[i];
-			++size;
-			i++;
-		}
-		else
-		{
-			Node* temp = root;
-			while (temp != nullptr)
-			{
-				if (temp->key > nodeVals[i]->insertKey)
-				{
-					if (temp->left == nullptr)
-					{
-						temp->left = nodeVals[i];
-						++size;
-						i++;
-						break;
-					}
-					else
-						temp = temp->left;
-				}
-				else
-				{
-					if (temp->right == nullptr)
-					{
-						temp->right = nodeVals[i];
-						++size;
-						i++;
-						break;
-					}
-					else
-						temp = temp->right;
-				}
-			}
-		}
-	}
 	bool IterativeSearch(K searchKey, T& result) const
 	{
 		Node* temp = root;
@@ -186,14 +146,14 @@ public:
 		FeedInOrderHelper(root, nodeVals);
 
 		//Display real fast
-		for (int i = 0; i < nodeVals.size(); i++) {
+		/*for (int i = 0; i < nodeVals.size(); i++) {
 
 			cout << nodeVals.at(i)->value << ", ";
-		}
+		}*/
 
 
 		//delete root
-		root == nullptr;
+		root = nullptr;
 		//Set size to 0
 		size = 0;
 
@@ -205,10 +165,13 @@ public:
 		}
 
 		//shuffle vector
+		random_shuffle(nodeVals.begin(), nodeVals.end());
+
 		//readd items
 		for (int i = 0; i < nodeVals.size(); i++) {
-
+			IterativeAddNode(nodeVals[i]);
 		}
+
 	}
 
 private:
@@ -315,9 +278,43 @@ private:
 		//output.push(node);
 		hitStack.push(nullptr);
 
+		//Is root
 		Node* currentNode = node;
-		while (notDone == false) {
-			if (hitStack.size() > sizes) {
+		output.push(currentNode);
+		while (currentNode != nullptr || output.size() > 0) {
+			if (currentNode == hitStack.top()) {
+				currentNode = output.top();
+				output.pop();
+
+			}
+			if (currentNode == nullptr) {
+				currentNode = output.top();
+				output.pop();
+				//hitStack.push(currentNode);
+
+			}
+			if (currentNode->left != nullptr && currentNode->left != hitStack.top()) {
+				output.push(currentNode);
+				currentNode = currentNode->left;
+				continue;
+			}
+
+			cout << currentNode->key << ": " << currentNode->value << ", ";
+			hitStack.push(currentNode);
+
+			if (currentNode->right != nullptr && currentNode->right != hitStack.top()) {
+				output.push(currentNode);
+				currentNode = currentNode->right;
+				continue;
+			}
+			
+			if (currentNode->left == nullptr && currentNode->right == nullptr) {
+				currentNode = output.top();
+				output.pop();
+			}	
+			
+
+			/*if (hitStack.size() > sizes) {
 				break;
 			}
 			else if (currentNode == root && currentNode->left == hitStack.top()) {
@@ -340,7 +337,7 @@ private:
 					currentNode = currentNode->right;
 				
 			}
-			//Gets stuck in a loop here
+			
 			else if (currentNode != output.top() && currentNode->left == nullptr && currentNode->right == nullptr && currentNode != hitStack.top()) {
 				
 					cout << currentNode->key << ": " << currentNode->value << ", ";
@@ -383,7 +380,7 @@ private:
 			else {
 				//Should be done
 				break;
-			}
+			}*/
 		}
 
 	}
@@ -423,4 +420,47 @@ private:
 		}
 	}
 	
+
+	void IterativeAddNode(Node* nodeVals)
+	{
+		int i = 0;
+		if (root == nullptr)
+		{
+			root = nodeVals;
+			++size;
+			i++;
+		}
+		else
+		{
+			Node* temp = root;
+			while (temp != nullptr)
+			{
+				if (temp->key > nodeVals->key)
+				{
+					if (temp->left == nullptr)
+					{
+						temp->left = nodeVals;
+						++size;
+						i++;
+						break;
+					}
+					else
+						temp = temp->left;
+				}
+				else
+				{
+					if (temp->right == nullptr)
+					{
+						temp->right = nodeVals;
+						++size;
+						i++;
+						break;
+					}
+					else
+						temp = temp->right;
+				}
+			}
+		}
+	}
+
 };
