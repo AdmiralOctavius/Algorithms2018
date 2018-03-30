@@ -8,12 +8,6 @@
 #include <algorithm>
 using namespace std;
 
-//Tree - contains nodes that point to any number of child nodes, without any cycles or loops (then it would be a Graph)
-	//Binary Tree - each node can have up to 2 children max
-		//Binary Search Tree - Binary Tree in which all left children are smaller than their, parent, and parents are smaller than their right children
-			//in other words: left child <= parent <= right child
-//Each subtree (or branch) is itself a tree - that means we can use recursion!
-
 template<typename T, typename K>//typename same as using class here
 class BinarySearchTree//Only works for T's that support <, >, ==
 {
@@ -68,8 +62,11 @@ public:
 		DisplayInOrderHelper(root);
 	}
 
+	//
+	//My Iterative Display Function
+	//
 	void DisplayInOrderIterative() {
-		DisplayInOrderHelperIterative2(root);
+		DisplayInOrderIterative3();
 	}
 
 	void DisplayPreOrder()
@@ -138,40 +135,36 @@ public:
 		return false;
 	}
 
+	//
+	//My Balance function
+	//
 	void Balance() {
-		//Store nodes
+
+		//Vector to store nodes
 		vector<Node*> nodeVals;
 
-		//Get nodes
+		//Get nodes into the vector
 		FeedInOrderHelper(root, nodeVals);
 
-		//Display real fast
-		/*for (int i = 0; i < nodeVals.size(); i++) {
-
-			cout << nodeVals.at(i)->value << ", ";
-		}*/
-
-
-		//delete root
+		//Delete root
 		root = nullptr;
 		//Set size to 0
 		size = 0;
 
-		//assign all node pointers to null
+		//Assign all node pointers to null
 		for (int i = 0; i < nodeVals.size(); i++) {
 			nodeVals[i]->left = nullptr;
 			nodeVals[i]->right = nullptr;
-			//cout << "Left: " << nodeVals[i]->left << " , Right: " << nodeVals[i]->right << " |";
 		}
 
-		//shuffle vector
+		//Shuffle vector
 		random_shuffle(nodeVals.begin(), nodeVals.end());
 
-		//readd items
+		//Readd items with custom Add function
 		for (int i = 0; i < nodeVals.size(); i++) {
 			IterativeAddNode(nodeVals[i]);
 		}
-
+		
 	}
 
 private:
@@ -261,8 +254,11 @@ private:
 		}
 	}
 
-
-	void DisplayInOrderHelperIterative(Node* node)
+	//
+	//My previous attempts at the iterative functions,
+	//This became extremely complicated as time went on
+	//
+	/*void DisplayInOrderHelperIterative(Node* node)
 	{
 		/*if (node)//Base Case
 		{
@@ -270,7 +266,7 @@ private:
 			DisplayInOrderHelper(node->left);//display left subtree
 			cout << node->key << ": " << node->value << ", ";//display parent
 			DisplayInOrderHelper(node->right);//display right subtree
-		}*/
+		}
 		bool notDone = false;
 		int sizes = size;
 		stack <Node*> output;
@@ -314,7 +310,7 @@ private:
 			}	
 			
 
-			/*if (hitStack.size() > sizes) {
+			if (hitStack.size() > sizes) {
 				break;
 			}
 			else if (currentNode == root && currentNode->left == hitStack.top()) {
@@ -380,12 +376,12 @@ private:
 			else {
 				//Should be done
 				break;
-			}*/
+			}
 		}
 
-	}
+	}*/
 
-	void DisplayInOrderHelperIterative2(Node* node)
+	/*void DisplayInOrderHelperIterative2(Node* node)
 	{
 		/*if (node)//Base Case
 		{
@@ -393,7 +389,7 @@ private:
 		DisplayInOrderHelper(node->left);//display left subtree
 		cout << node->key << ": " << node->value << ", ";//display parent
 		DisplayInOrderHelper(node->right);//display right subtree
-		}*/
+		}
 		bool notDone = false;
 		bool hitLeft = false;
 		bool noLeft = false;
@@ -452,7 +448,32 @@ private:
 		}
 
 	}
+	*/
 
+	//
+	//My Working attempt on the iterative function
+	//This was an absolute pain to try and get my head around
+	//Massive thanks to Philip Taylor for sitting down and explaining to me on paper how simple this actually was.
+	//I very much got lost in the weeds.
+	void DisplayInOrderIterative3() {
+		Node* curr = root;
+		stack<Node*> toDo;
+
+		while (curr || toDo.size()) {
+			if (curr != nullptr) {
+				toDo.push(curr);
+				curr = curr->left;
+				
+			}
+			else {
+				curr = toDo.top();
+				toDo.pop();
+				cout << curr->key << ": " << curr->value << " || " << endl;
+
+				curr = curr->right;
+			}
+		}
+	}
 
 	void DisplayPreOrderHelper(Node* node)//Print parent first, then left child, then right child. Root appears first
 	{
@@ -476,26 +497,27 @@ private:
 		}
 	}
 
+	//Function I made to assist with adding the node pointers into a vector.
 	void FeedInOrderHelper(Node* node, vector<Node*>& nodeVals)
 	{
 		if (node)//Base Case
 		{
 			//General Case
 			FeedInOrderHelper(node->left, nodeVals);//display left subtree
-			nodeVals.push_back(node);
+			nodeVals.push_back(node);//Pushes the node pointer onto the array, ready for shuffling
 			FeedInOrderHelper(node->right, nodeVals);//display right subtree
 		}
 	}
 	
-
+	//Modified add function to add nodes back to the tree
 	void IterativeAddNode(Node* nodeVals)
 	{
-		int i = 0;
+		
 		if (root == nullptr)
 		{
 			root = nodeVals;
 			++size;
-			i++;
+			
 		}
 		else
 		{
@@ -508,7 +530,6 @@ private:
 					{
 						temp->left = nodeVals;
 						++size;
-						i++;
 						break;
 					}
 					else
@@ -520,7 +541,6 @@ private:
 					{
 						temp->right = nodeVals;
 						++size;
-						i++;
 						break;
 					}
 					else
