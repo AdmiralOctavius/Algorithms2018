@@ -41,6 +41,18 @@ bool SortItemsByDecreasingValue(const Item &l, const Item &r)
 	return l.valuePerPound > r.valuePerPound;
 }
 
+class SortItemsFunctor {
+
+public:
+	bool desc = true;
+	bool operator()(const Item &l, const Item &r) {
+		if (desc)
+			return l.valuePerPound > r.valuePerPound;
+		else
+			return r.valuePerPound > l.valuePerPound;
+	}
+};
+
 /*
 Greedy Algorithms
 	At each step, pick the locally optimal solution, 
@@ -79,12 +91,57 @@ Binary Knapsack Problem
 
 */
 
-vector<Item> StealStuff(vector<Item> shopInventory, double weightLimit)
+vector<Item> StealStuff(vector<Item> &shopInventory, double weightLimit)
 {
+	/*
+	Working on this presuming it was unsorted, whoops
+
+	
+	double currWeight = weightLimit;
+	SortItemsFunctor sorter;
 	vector<Item> knapsack;
+	int maxWorthPos;
+	//knapsack.push_back(shopInventory.at(0));
+	for (int i = 0; i < shopInventory.size()-1; i++) {
+		/*if (sorter.operator()(shopInventory.at(i), shopInventory.at(i + 1))) {
+			if (shopInventory[i].weight < weightLimit) {
+				currWeight = currWeight - shopInventory[i].weight;
+				knapsack.push_back(shopInventory.at(i));
+			}
+		}
+		else {
+			if (shopInventory[i+1].weight < weightLimit) {
+				currWeight = currWeight - shopInventory[i+1].weight;
+				knapsack.push_back(shopInventory.at(i+1));
+			}
+			
+		}
+		maxWorthPos = i;
+
+		for (int j = 0; j < shopInventory.size() - 1; i++) {
+			if (sorter(shopInventory[maxWorthPos], shopInventory[j])) {
+				maxWorthPos = i;
+			}
+			else {
+				maxWorthPos = j;
+			}
+			if (shopInventory[maxWorthPos].weight < weightLimit) {
+				currWeight = currWeight - shopInventory[i].weight;
+				knapsack.push_back(shopInventory.at(i));
+			}
+		}
+
+
+	}
+	*/
+
+
+
 
 	return knapsack;
 }
+
+
 
 int main()
 {
