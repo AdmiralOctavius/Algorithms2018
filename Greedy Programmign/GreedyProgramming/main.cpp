@@ -4,7 +4,7 @@
 #include <string>
 #include <algorithm>
 #include <functional>
-
+#include "RabinKarp.h"
 using namespace std;
 
 class Item
@@ -93,8 +93,8 @@ Binary Knapsack Problem
 
 vector<Item> StealStuff(vector<Item> &shopInventory, double weightLimit)
 {
-	/*
-	Working on this presuming it was unsorted, whoops
+	
+	//Working on this presuming it was unsorted, whoops
 
 	
 	double currWeight = weightLimit;
@@ -102,7 +102,7 @@ vector<Item> StealStuff(vector<Item> &shopInventory, double weightLimit)
 	vector<Item> knapsack;
 	int maxWorthPos;
 	//knapsack.push_back(shopInventory.at(0));
-	for (int i = 0; i < shopInventory.size()-1; i++) {
+	//for (int i = 0; i < shopInventory.size()-1; i++) {
 		/*if (sorter.operator()(shopInventory.at(i), shopInventory.at(i + 1))) {
 			if (shopInventory[i].weight < weightLimit) {
 				currWeight = currWeight - shopInventory[i].weight;
@@ -169,7 +169,36 @@ int main()
 	for (auto val : shopInventory)
 		cout << val.name << endl;
 
-	vector<Item> result = StealStuff(shopInventory, 20);
+	//vector<Item> result = StealStuff(shopInventory, 20);
+
+	vector<int> input;
+	input.push_back(1);
+	input.push_back(4);
+	input.push_back(2);
+	input.push_back(3);
+	input.push_back(1);
+	input.push_back(2);
+	input.push_back(5);
+	input.push_back(3);
+	input.push_back(1);
+	input.push_back(1);
+	input.push_back(1);
+	input.push_back(1);
+	input.push_back(1);
+
+	vector<int> pattern;
+	pattern.push_back(1);
+	pattern.push_back(2);
+	pattern.push_back(5);
+	pattern.push_back(3);
+
+	vector<int> results;
+	results = RabinKarp(input, pattern);
+	for (int i = 0; i < results.size(); i++) {
+		cout << results[i] << ",";
+	}
+
+
 
 	return 0;
 }

@@ -1,4 +1,10 @@
 #pragma once
+
+#include <vector>
+#include <string>
+#include <iostream>
+
+using namespace std;
 /*
 
 
@@ -34,3 +40,58 @@ That ‘textbook’ version may be better in some worst-case scenarios, but this is 
 
 
 */
+
+vector<int> RabinKarp(vector<int> input, vector<int> pattern) {
+	int sSize = input.size();
+	int pSize = pattern.size();
+	int sSum = 0;
+	int pSum = 0;
+	//1
+	for (int i = 0; i < pSize; i++) {
+		pSum += pattern[i];
+	}
+	//2
+	for (int i = 0; i < sSize; i++) {
+		sSum += input[i];
+	}
+
+	//3
+	vector<int> currentMatch;
+	vector<int> matches;
+	bool noMatch = false;
+	for (int i = 0; i < sSize - (pSize - 1); i++) {
+		if (sSum == pSum) {
+			//Start loop
+			for (int j = 0; j < pSize; i++) {
+				if (input[i + j] != pattern[j]) {
+					noMatch = true;
+					break;
+				}
+			}
+			if (!noMatch) {
+				matches.push_back(i);
+			}
+		}
+		else {
+			//Reset
+			sSum -= input[i];
+			sSum += input[i + pSize];
+		}
+
+
+
+		/*
+		if (input[i] == pattern[i]) {
+			for (int j = 0; j < pSize; i++) {
+				currentMatch.push_back(input[i + j]);
+			}
+			if (currentMatch == pattern) {
+				matches.push_back(i);
+			}
+		}
+		*/
+		
+	}
+
+	return matches;
+}
