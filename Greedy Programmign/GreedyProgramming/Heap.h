@@ -69,6 +69,7 @@ public:
 		maxHeap(maxHeap),
 		end(0)
 	{
+		isBuilt = false;
 		arr = new T[capacity];
 	}
 

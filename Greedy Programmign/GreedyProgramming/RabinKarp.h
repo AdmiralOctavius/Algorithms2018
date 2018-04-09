@@ -51,7 +51,7 @@ vector<int> RabinKarp(vector<int> input, vector<int> pattern) {
 		pSum += pattern[i];
 	}
 	//2
-	for (int i = 0; i < sSize; i++) {
+	for (int i = 0; i < pSize; i++) {
 		sSum += input[i];
 	}
 
@@ -60,9 +60,10 @@ vector<int> RabinKarp(vector<int> input, vector<int> pattern) {
 	vector<int> matches;
 	bool noMatch = false;
 	for (int i = 0; i < sSize - (pSize - 1); i++) {
-		if (sSum == pSum) {
+		if (sSum ==	pSum) {
 			//Start loop
-			for (int j = 0; j < pSize; i++) {
+			noMatch = false;
+			for (int j = 0; j < pSize; j++) {
 				if (input[i + j] != pattern[j]) {
 					noMatch = true;
 					break;
@@ -75,8 +76,10 @@ vector<int> RabinKarp(vector<int> input, vector<int> pattern) {
 		else {
 			//Reset
 			sSum -= input[i];
+			//This gets the next element in the vector that would be the end of the pattern
 			sSum += input[i + pSize];
 		}
+		
 
 
 

@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <functional>
 #include "RabinKarp.h"
+#include "Heap.h"
 using namespace std;
 
 class Item
@@ -145,6 +146,9 @@ vector<Item> StealStuff(vector<Item> &shopInventory, double weightLimit)
 
 int main()
 {
+
+	srand(time_t(NULL));
+
 	/*
 	Gunpowder:				10 gold/lb,		30lbs
 	Healing Potion:			1 gold/lb,		50lbs
@@ -176,7 +180,7 @@ int main()
 	input.push_back(4);
 	input.push_back(2);
 	input.push_back(3);
-	input.push_back(1);
+	input.push_back(1);//Position 4
 	input.push_back(2);
 	input.push_back(5);
 	input.push_back(3);
@@ -198,6 +202,15 @@ int main()
 		cout << results[i] << ",";
 	}
 
+
+	Heap<int> myHeap;
+	for (int i = 0; i < 20; i++) {
+		myHeap.Add(rand() % 100);
+	}
+
+	myHeap.Display();
+	myHeap.Verify();
+	myHeap.Empty();
 
 
 	return 0;
