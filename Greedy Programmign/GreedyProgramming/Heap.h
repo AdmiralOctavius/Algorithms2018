@@ -80,6 +80,10 @@ public:
 
 	void Clear()
 	{
+		if (isBuilt == false) {
+			BuildHeap();
+			isBuilt = true;
+		}
 		end = 0;
 	}
 
@@ -180,28 +184,19 @@ public:
 	
 	int Parent(int index)
 	{
-		if (isBuilt == false) {
-			BuildHeap();
-			isBuilt = true;
-		}
+		
 		return (index - 1) / 2;//ints won't include decimals so it works for right children too
 	}
 
 	int LeftChild(int index)//0 is the root, 1 is its left child. 1's left child is 3, 
 	{
-		if (isBuilt == false) {
-			BuildHeap();
-			isBuilt = true;
-		}
+		
 		return index * 2 + 1;
 	}
 
 	int RightChild(int index)
 	{
-		if (isBuilt == false) {
-			BuildHeap();
-			isBuilt = true;
-		}
+		
 		return index * 2 + 2;
 	}
 };

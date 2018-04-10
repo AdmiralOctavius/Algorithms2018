@@ -6,184 +6,108 @@
 #include <functional>
 #include "RabinKarp.h"
 #include "Heap.h"
+#include "GreedyCoinAlg.h"
+#include "Timer.h"
 using namespace std;
 
-class Item
+vector<int> ComputePrefixArray(const string &pattern)
 {
-public:
-	Item(string n, double w, double vPP)
-		: name(n), weight(w), valuePerPound(vPP)
-	{
+	vector<int> prefixArray(pattern.size());
+	int q = 0;
 
+	prefixArray[0] = 0;
+
+	for (int i = 1; i < pattern.size(); ++i)
+	{
+		while (q > 0 && pattern[q] != pattern[i])
+			q = prefixArray[q - 1];
+
+		if (pattern[q] == pattern[i])
+			++q;
+
+		prefixArray[i] = q;
 	}
 
-	string name;
-	double weight;
-	double valuePerPound;
-	double Total()
-	{
-		return valuePerPound * weight;
-	}
-
-	bool operator<(const Item& rhs) const
-	{
-		return valuePerPound < rhs.valuePerPound;
-	}
-
-	bool operator>(const Item& rhs) const
-	{
-		return valuePerPound > rhs.valuePerPound;
-	}
-};
-
-//Predicate 
-bool SortItemsByDecreasingValue(const Item &l, const Item &r)
-{
-	return l.valuePerPound > r.valuePerPound;
+	return prefixArray;
 }
 
-class SortItemsFunctor {
-
-public:
-	bool desc = true;
-	bool operator()(const Item &l, const Item &r) {
-		if (desc)
-			return l.valuePerPound > r.valuePerPound;
-		else
-			return r.valuePerPound > l.valuePerPound;
-	}
-};
-
-/*
-Greedy Algorithms
-	At each step, pick the locally optimal solution, 
-	hoping for a globally optimal outcome
-		Locally Optimal would be like taking a 
-		chess piece as soon as you can, without considering several moves ahead.
-		In that example, the greedy approach would NOT guarantee 
-		the globally optimal outcome (winning the game)
-		But for some problems the greedy approach does guarantee the right answer 
-
-Partial Knapsack Problem 
-	We are a thief going into a store to steal stuff. We have a weight limit, 
-	so we can only carry so much. 
-	What do we take to maximize our ill-gained profits?
-	In this 'Partial' problem we can take parts of an item.
-
-	We can carry 20lbs.
-
-	Gunpowder:				10 gold/lb,		30lbs
-	Healing Potion:			1 gold/lb,		50lbs
-	Giant Strength Potion:	100 gold/lb		10lbs
-	Invisibility Potion:	150 gold/lb		5lbs
-
-Binary Knapsack Problem
-	We can only take whole things
-	We can carry 50lb.
-
-	1 Sword:				100 gold,	20lb
-	2 Magic Short-Sword:	500 gold,	10lb
-	3 Shield x 10:		30 gold,	5lb
-	4 Kite Shield:		200 gold,	40lb
-	5 Magic Tower Shield: 1000 gold,	60lb
-
-	Item 2 + 4 = 700 gold in 50lbs
-	Item 2 + 3 (8 of them) = 740 gold in 50lbs
-
-*/
-
-vector<Item> StealStuff(vector<Item> &shopInventory, double weightLimit)
+vector<int> PatternMatchKnuthMorrisPratt(const string &source, const string &pattern)
 {
-	
-	//Working on this presuming it was unsorted, whoops
+	vector<int> results;
 
-	
-	double currWeight = weightLimit;
-	SortItemsFunctor sorter;
-	vector<Item> knapsack;
-	int maxWorthPos;
-	//knapsack.push_back(shopInventory.at(0));
-	//for (int i = 0; i < shopInventory.size()-1; i++) {
-		/*if (sorter.operator()(shopInventory.at(i), shopInventory.at(i + 1))) {
-			if (shopInventory[i].weight < weightLimit) {
-				currWeight = currWeight - shopInventory[i].weight;
-				knapsack.push_back(shopInventory.at(i));
-			}
+	//This should output each index where pattern was found in source
+	if (source.size() < pattern.size())
+		return results;//Pattern can't be in a source that is smaller than the pattern itself
+
+					   //Preprocessing
+					   //Extra processing done ahead of time to make the main processing faster (or functional)
+	vector<int> prefixArray = ComputePrefixArray(pattern);
+
+	int q = 0;
+	for (int i = 0; i < source.size() - (pattern.size() - 1); ++i)
+	{
+		while (q > 0 && toupper(pattern[q]) != toupper(source[i]))
+			q = prefixArray[q - 1];
+
+		if (toupper(pattern[q]) == toupper(source[i]))
+			++q;
+
+		if (q == pattern.size())
+		{
+			results.emplace_back(i - (q - 1));
+			q = prefixArray[q - 1];
 		}
-		else {
-			if (shopInventory[i+1].weight < weightLimit) {
-				currWeight = currWeight - shopInventory[i+1].weight;
-				knapsack.push_back(shopInventory.at(i+1));
-			}
-			
-		}
-		maxWorthPos = i;
-
-		for (int j = 0; j < shopInventory.size() - 1; i++) {
-			if (sorter(shopInventory[maxWorthPos], shopInventory[j])) {
-				maxWorthPos = i;
-			}
-			else {
-				maxWorthPos = j;
-			}
-			if (shopInventory[maxWorthPos].weight < weightLimit) {
-				currWeight = currWeight - shopInventory[i].weight;
-				knapsack.push_back(shopInventory.at(i));
-			}
-		}
-
-
 	}
-	*/
 
-
-
-
-	return knapsack;
+	return results;
 }
 
+//Brute-Force/Naive
+vector<int> PatternMatchSimple(const string &source, const string &pattern)//O(n^2)
+{
+	vector<int> results;
+
+	//This should output each index where pattern was found in source
+	if (source.size() < pattern.size())
+		return results;//Pattern can't be in a source that is smaller than the pattern itself
+
+	for (int i = 0; i < source.size() - (pattern.size() - 1); ++i)
+	{
+		for (int j = 0; j < pattern.size(); ++j)
+		{
+			if (toupper(source[i + j]) != toupper(pattern[j]))
+				break;
+
+			if (j == pattern.size() - 1)//if we got through the whole pattern without breaking.
+				results.push_back(i);//cout << "Match found at index " << i << endl;
+		}
+	}
+	return results;
+}
 
 
 int main()
 {
 
 	srand(time_t(NULL));
+	Timer timer;
 
-	/*
-	Gunpowder:				10 gold/lb,		30lbs
-	Healing Potion:			1 gold/lb,		50lbs
-	Giant Strength Potion:	100 gold/lb		10lbs
-	Invisibility Potion:	150 gold/lb		5lbs
-	*/
-	vector<Item> shopInventory;
-	shopInventory.push_back({ "Gunpowder", 30, 10 });
-	shopInventory.push_back({ "Healing Potion", 50, 1 });
-	shopInventory.push_back({ "Giant Strength Potion", 10, 100 });
-	shopInventory.push_back({ "Invisibility Potion", 5, 150 });
-
-	for (auto val : shopInventory)
-		cout << val.name << endl;
-
-	//sort(shopInventory.begin(), shopInventory.end(), greater<Item>());
-	//sort(shopInventory.begin(), shopInventory.end(), SortItemsByDecreasingValue);
-	sort(shopInventory.begin(), shopInventory.end(), 
-		[](Item& l, Item& r) { return l.valuePerPound > r.valuePerPound; });
-
-	cout << "After Sorting." << endl;
-	for (auto val : shopInventory)
-		cout << val.name << endl;
-
-	//vector<Item> result = StealStuff(shopInventory, 20);
-
+	//Testing Values for RabinKarp
 	vector<int> input;
 	input.push_back(1);
 	input.push_back(4);
 	input.push_back(2);
 	input.push_back(3);
-	input.push_back(1);//Position 4
+	for (int i = 0; i < 100; i++) {
+		input.push_back(rand() % 100);
+	}
+	input.push_back(1);
 	input.push_back(2);
 	input.push_back(5);
 	input.push_back(3);
+	for (int i = 0; i < 100; i++) {
+		input.push_back(rand() % 100);
+	}
 	input.push_back(1);
 	input.push_back(1);
 	input.push_back(1);
@@ -197,21 +121,55 @@ int main()
 	pattern.push_back(3);
 
 	vector<int> results;
+
+	//Calling up RabinKarp with basic values
+	timer.Start();
 	results = RabinKarp(input, pattern);
+	timer.Stop();
+	timer.Report();
 	for (int i = 0; i < results.size(); i++) {
 		cout << results[i] << ",";
 	}
 
-
+	vector<int> results2;
+	timer.Start();
+	results2 = PatternMatchKnuthMorrisPratt(input, pattern);
+	timer.Stop();
+	timer.Report();
+	//Creating basic heap
 	Heap<int> myHeap;
 	for (int i = 0; i < 20; i++) {
 		myHeap.Add(rand() % 100);
 	}
 
+	//Testing new build heap function
 	myHeap.Display();
 	myHeap.Verify();
 	myHeap.Empty();
 
 
+	//Setting up new coins
+	vector<Coin> ValidCoins;
+	ValidCoins.push_back({ "Qian", 20 });
+	ValidCoins.push_back({ "Rupee", 1 });
+	ValidCoins.push_back({ "Dime" , 10 });
+//	ValidCoins.push_back({ "Penny", 1 });
+	ValidCoins.push_back({ "Quarter", 25 });
+	ValidCoins.push_back({ "50c Euro", 62 });
+	//Sort the coins we add in
+	sort(ValidCoins.begin(), ValidCoins.end(), [](Coin& l, Coin& r) { return l.value > r.value; });
+
+	//Output the coins added
+	for (auto val : ValidCoins)
+		cout << val.name << ",";
+
+	cout << endl << endl;
+
+	//Get the change needed for the amount
+	vector<Coin> ChangeWallet = ChangeCalc(ValidCoins, 139);
+
+	//Output out values
+	for (auto val : ChangeWallet)
+		cout << val.name << " count: " << val.count << " | ";
 	return 0;
 }
