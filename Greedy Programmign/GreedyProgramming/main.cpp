@@ -1,4 +1,18 @@
+/*
 
+Name: Isaac Bennett
+Class: Cit-238-201
+Professor: Matt Mundell
+----
+Assignment: Assignment 6 – Heaps, Greedy Algorithms and Pattern Matching
+Notes: Help recieved: Dylan White, Kristofer Constantino
+
+This was rough, and I did Rabin Karp first.
+Greedy was fun to work on, since adding different coins was cool
+
+
+
+*/
 #include <iostream>
 #include <vector>
 #include <string>
@@ -8,7 +22,29 @@
 #include "Heap.h"
 #include "GreedyCoinAlg.h"
 #include "Timer.h"
+#include <streambuf>
+#include <fstream>
 using namespace std;
+
+
+string ReadFile(string filename)
+{
+	string result = "";
+	ifstream fin;
+	fin.open(filename);
+
+	//Figure out how much space we need to store the file contents
+	fin.seekg(0, ios::end);//Move to end of the file
+	result.reserve(fin.tellg());
+	fin.seekg(0, ios::beg);//Move to beginning of the file
+
+						   //Read the file. Multiple ways to do this; this method is fast for simply grabbing everything (no parsing)
+	result.assign(istreambuf_iterator<char>(fin), istreambuf_iterator<char>());
+
+	fin.close();//Make sure to do this - otherwise it'll say 'file is open in another program' until you restart your computer (usually)
+	return result;
+}
+
 
 vector<int> ComputePrefixArray(const string &pattern)
 {
@@ -93,7 +129,7 @@ int main()
 	Timer timer;
 
 	//Testing Values for RabinKarp
-	vector<int> input;
+	/*vector<int> input;
 	input.push_back(1);
 	input.push_back(4);
 	input.push_back(2);
@@ -113,37 +149,59 @@ int main()
 	input.push_back(1);
 	input.push_back(1);
 	input.push_back(1);
+	*/
 
-	vector<int> pattern;
+
+	/*vector<int> pattern;
 	pattern.push_back(1);
 	pattern.push_back(2);
 	pattern.push_back(5);
 	pattern.push_back(3);
-
+	*/
+	string input = ReadFile("input.txt");
+	string pattern = "1253";
 	vector<int> results;
 
 	//Calling up RabinKarp with basic values
+	cout << "Testing RabinKarp: ";
 	timer.Start();
 	results = RabinKarp(input, pattern);
 	timer.Stop();
 	timer.Report();
+
+	cout << endl << endl;
 	for (int i = 0; i < results.size(); i++) {
 		cout << results[i] << ",";
 	}
 
+	cout << "Testing KMP: ";
 	vector<int> results2;
 	timer.Start();
 	results2 = PatternMatchKnuthMorrisPratt(input, pattern);
 	timer.Stop();
 	timer.Report();
+	
+	cout << endl << endl;
+
+	cout << "Testing Brute forces: ";
+	vector<int> results3;
+	timer.Start();
+	results3 = PatternMatchSimple(input, pattern);
+	timer.Stop();
+	timer.Report();
+
+	cout << endl << endl;
+
+
 	//Creating basic heap
 	Heap<int> myHeap;
 	for (int i = 0; i < 20; i++) {
 		myHeap.Add(rand() % 100);
 	}
-
+	
 	//Testing new build heap function
 	myHeap.Display();
+	cout << endl << endl;
 	myHeap.Verify();
 	myHeap.Empty();
 

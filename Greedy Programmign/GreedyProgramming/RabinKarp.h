@@ -41,7 +41,7 @@ That ‘textbook’ version may be better in some worst-case scenarios, but this is 
 
 */
 
-vector<int> RabinKarp(vector<int> input, vector<int> pattern) {
+vector<int> RabinKarp(string input, string pattern) {
 	int sSize = input.size();
 	int pSize = pattern.size();
 	int sSum = 0;
