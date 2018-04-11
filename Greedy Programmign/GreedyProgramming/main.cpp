@@ -208,12 +208,16 @@ int main()
 
 	//Setting up new coins
 	vector<Coin> ValidCoins;
-	ValidCoins.push_back({ "Qian", 20 });
-	ValidCoins.push_back({ "Rupee", 1 });
+	
 	ValidCoins.push_back({ "Dime" , 10 });
-//	ValidCoins.push_back({ "Penny", 1 });
+	ValidCoins.push_back({ "Penny", 1 });
 	ValidCoins.push_back({ "Quarter", 25 });
-	ValidCoins.push_back({ "50c Euro", 62 });
+	ValidCoins.push_back({ "Nickle", 5 });
+	//Uncomment this if you want to test other currencies
+	/*ValidCoins.push_back({ "50c Euro", 62 });
+	ValidCoins.push_back({ "Qian", 20 });
+	ValidCoins.push_back({ "Rupee", 1 });*/
+
 	//Sort the coins we add in
 	sort(ValidCoins.begin(), ValidCoins.end(), [](Coin& l, Coin& r) { return l.value > r.value; });
 
@@ -223,11 +227,35 @@ int main()
 
 	cout << endl << endl;
 
-	//Get the change needed for the amount
-	vector<Coin> ChangeWallet = ChangeCalc(ValidCoins, 139);
-
+	vector<Coin> ChangeWallet = ChangeCalc(ValidCoins, 50);
+	cout << "Testing against 50cents" << endl;
 	//Output out values
 	for (auto val : ChangeWallet)
 		cout << val.name << " count: " << val.count << " | ";
+	cout << endl;
+
+	//Get the change needed for the amount
+	ChangeWallet = ChangeCalc(ValidCoins, 80);
+	cout << "Testing against 80cents" << endl;
+	//Output out values
+	for (auto val : ChangeWallet)
+		cout << val.name << " count: " << val.count << " | ";
+	cout << endl;
+
+	ChangeWallet = ChangeCalc(ValidCoins, 99);
+	cout << "Testing against 99cents" << endl;
+	//Output out values
+	for (auto val : ChangeWallet)
+		cout << val.name << " count: " << val.count << " | ";
+	cout << endl;
+
+	ChangeWallet = ChangeCalc(ValidCoins, 149);
+	cout << "Testing against 1 dollar 49cents" << endl;
+	//Output out values
+	for (auto val : ChangeWallet)
+		cout << val.name << " count: " << val.count << " | ";
+	cout << endl;
+
+	
 	return 0;
 }
