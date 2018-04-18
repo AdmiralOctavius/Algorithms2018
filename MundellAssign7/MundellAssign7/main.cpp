@@ -88,7 +88,8 @@ void DisplayItems(const vector<Item> &items)
 vector<Item> BinaryKnapsack(vector<Item> &shopInventory, double weightLimit)
 {
 	vector<Item> knapsack;
-
+	int maxValue;
+	int prevMaxVal;
 	//First, just return an empty knapsack if the shopInventory is empty or the weight limit is less than or equal to 0. Sad thief face.
 	if (shopInventory.size() == 0) {
 		return knapsack;
@@ -97,15 +98,33 @@ vector<Item> BinaryKnapsack(vector<Item> &shopInventory, double weightLimit)
 	//This table will store the maximum value we can get if we take the items in that column. (where we 'memoize' results)
 	//You can use a vector of vectors (vector<vector<int>>) or a multidimensional array (int **arr w/ new and delete)
 	//It should be a table of 'prices', whether you use int or double is up to you.
+
 	vector<vector<int>> OurTable;
-	for (int i = 0; i < shopInventory.size(); i++) {
-		for (int j = 0; j < weightLimit; j++) {
+	OurTable.resize(shopInventory.size() + 1);
+	for (int i = 0; i < OurTable.size(); i++) {
+		OurTable[i].resize(weightLimit +1);
+	}
+
+	for (int i = 0; i < shopInventory.size() + 1; i++) {
+		for (int j = 0; j < weightLimit + 1; j++) {
+		if (i != 0) {
 			if (i != 0 || j != 0) {
-				OurTable[i][j] = shopInventory[i].weight;
+				if (shopInventory[i - 1].weight <= j) {
+					maxValue = (shopInventory[i - 1].valuePerPound * shopInventory[i - 1].weight) + OurTable[i - 1][j - (int)shopInventory[i - 1].weight];
+					prevMaxVal = OurTable[i - 1][j];
+					if (maxValue > prevMaxVal) {
+						OurTable[i][j] = maxValue;
+					}
+					else {
+						OurTable[i][j] = prevMaxVal;
+					}
+				}
+				//OurTable[i][j] = shopInventory[i].weight;
 			}
 			else {
 				OurTable[i][j] = 0;
 			}
+		}
 		}
 	}
 	//Loop from i = 0 up to the number of items + 1. i is the current item.
@@ -121,18 +140,33 @@ vector<Item> BinaryKnapsack(vector<Item> &shopInventory, double weightLimit)
 	//At this point we have a table of how much profit we can achieve for every combination of items.
 	//The value in the bottom right is the optimal amount we can make.
 	//You may optionally want add some code to display that value or the whole table here to help you finish the algorithm.
+	cout << OurTable[shopInventory.size()][weightLimit] << " Results" << endl;
 
+	for (int i = 0; i < shopInventory.size() + 1; i++) {
+		cout << "Column " << i << ": ";
+		for (int j = 0; j < weightLimit + 1; j++) {
+			cout << OurTable[i][j] << " ";
+		}
+		cout << " End Column" << endl;
+	}
 	//Now we actually take the items that gives us that max value.
 	//set i = number of items, j = weightLimit
 	//while i is greater than 0 and j is greater or equal to 0
 	//if table[i][j] is not equal to table[i-1][j] (then item i-1 must've contributed to our optimal value, so...)
 	//take item i-1. Subtract its weight from j. Put the item in the knapsack, and erase it from the shop's inventory
 	//decrease i by 1. 
+	int i = shopInventory.size();
+	int j = weightLimit;
 
+	if (OurTable[i][j] != OurTable[i - 1][j]) {
+		knapsack.push_back(shopInventory.at(i - 1));
+		//shopInventory.;
+	}
 	//Delete any dynamically allocated data you have (if you made any)
 
 	return knapsack;
 }
+
 
 int main()
 {
@@ -175,6 +209,7 @@ int main()
 	cout << endl << "Stealing some items..." << endl;
 	result = BinaryKnapsack(blacksmithInventory, weightLimit);
 	DisplayItems(result);
+
 
 	return 0;
 }
