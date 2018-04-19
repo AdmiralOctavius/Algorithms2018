@@ -121,14 +121,22 @@ vector<Item> BinaryKnapsack(vector<Item> &shopInventory, double weightLimit)
 						OurTable[i][j] = prevMaxVal;
 					}
 					else {
-						OurTable[i][j] = OurTable[i - 1][j];
+						if (OurTable[i - 1][j] == OurTable[i][j]) {
+							continue;
+						}
+						else {
+							OurTable[i][j] = OurTable[i - 1][j];
+						}
 					}
 				}
 				//OurTable[i][j] = shopInventory[i].weight;
 			}
 			else {
-				OurTable[i][j] = 0;
+				//OurTable[i][j] = 0;
 			}
+		}
+		else {
+			OurTable[i][j] = 0;
 		}
 		}
 	}
@@ -165,11 +173,13 @@ vector<Item> BinaryKnapsack(vector<Item> &shopInventory, double weightLimit)
 	//decrease i by 1. 
 	int i = shopInventory.size();
 	int j = weightLimit;
-	while (i > 0 && j > 0) {
+	while (i > 0 && j >= 0) {
 		if (OurTable[i][j] != OurTable[i - 1][j]) {
-			j -= shopInventory.at(i - 1).weight;
-			knapsack.push_back(shopInventory.at(i - 1));
-			shopInventory.erase(shopInventory.begin() + (i-1));
+			//if (shopInventory[i - 1].weight < j) {
+				j -= shopInventory.at(i - 1).weight;
+				knapsack.push_back(shopInventory.at(i - 1));
+				shopInventory.erase(shopInventory.begin() + (i - 1));
+			//}
 		}
 		i--;
 	}
