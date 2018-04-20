@@ -129,10 +129,8 @@ vector<Item> BinaryKnapsack(vector<Item> &shopInventory, double weightLimit)
 						}
 					}
 				}
-				//OurTable[i][j] = shopInventory[i].weight;
-			}
-			else {
-				//OurTable[i][j] = 0;
+				
+				
 			}
 		}
 		else {
@@ -154,7 +152,7 @@ vector<Item> BinaryKnapsack(vector<Item> &shopInventory, double weightLimit)
 	//At this point we have a table of how much profit we can achieve for every combination of items.
 	//The value in the bottom right is the optimal amount we can make.
 	//You may optionally want add some code to display that value or the whole table here to help you finish the algorithm.
-	cout << OurTable[shopInventory.size()][weightLimit] << " Results" << endl;
+	cout << "Result: " << OurTable[shopInventory.size()][weightLimit] <<  endl;
 
 	for (int i = 1; i < shopInventory.size() + 1; i++) {
 		cout << "Column " << i << ": ";
